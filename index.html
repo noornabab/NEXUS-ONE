@@ -11,17 +11,16 @@
 
 <style>
 :root{
-  --bg:#080d19;--panel:#101a2b;--panel2:#142239;
-  --text:#f4f7ff;--muted:#91a0b8;--line:#263650;
-  --primary:#6d8cff;--accent:#36d6c2;--danger:#ff647c;
+  --bg:#080d19;--panel:#101a2b;--text:#f4f7ff;
+  --muted:#91a0b8;--line:#263650;--primary:#6d8cff;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-.app{min-height:100vh}
-.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at top,#172b50 0%,#080d19 65%)}
+
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at top,#172b50,#080d19 65%)}
 .auth-card{width:min(100%,440px);padding:32px;border:1px solid var(--line);background:#101a2bed;border-radius:24px;box-shadow:0 25px 80px #0007}
 .logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
 .logo-icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#6d8cff,#36d6c2);color:#07111d;font-weight:900;font-size:22px}
@@ -31,16 +30,13 @@ button{cursor:pointer}
 .muted{color:var(--muted);font-size:13px;line-height:1.6}
 .field{margin-top:16px}
 .field label{display:block;font-size:13px;margin-bottom:8px;color:#c6d2e7}
-.field input,.field select,.field textarea,
-.search-input{
+.field input,.field select,.field textarea,.search-input{
   width:100%;min-height:45px;border-radius:11px;border:1px solid var(--line);
-  background:#0b1424;color:white;padding:10px 13px;outline:none;
+  background:#0b1424;color:white;padding:10px 13px;outline:none
 }
 .field textarea{min-height:105px;resize:vertical}
 .field input:focus,.field select:focus,.field textarea:focus,.search-input:focus{border-color:var(--primary)}
-.primary,.secondary,.danger,.small-btn{
-  border:0;border-radius:11px;padding:12px 16px;font-weight:700;
-}
+.primary,.secondary,.danger,.small-btn{border:0;border-radius:11px;padding:12px 16px;font-weight:700}
 .primary{background:linear-gradient(110deg,#6d8cff,#4770ed);color:white}
 .secondary{background:#203451;color:#dce7ff;border:1px solid #354d70}
 .danger{background:#492333;color:#ff9aaa;border:1px solid #713246}
@@ -52,6 +48,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .message{margin-top:13px;font-size:13px;line-height:1.5;white-space:pre-wrap}
 .message.error{color:#ff8292}
 .message.success{color:#58dfba}
+
 .layout{display:flex;min-height:100vh}
 .sidebar{width:255px;flex-shrink:0;background:#0c1423;border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column}
 .sidebar .logo{padding:0 8px;margin-bottom:25px}
@@ -72,18 +69,27 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 15px}
 .section-head h3{margin:0;font-size:17px}
 .module-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.module{min-height:145px;padding:19px;border:1px solid var(--line);border-radius:17px;background:var(--panel);transition:.2s;cursor:pointer}
+
+/* MODULE CARDS ARE REAL BUTTONS */
+.module{
+  display:block;width:100%;min-width:0;min-height:145px;padding:19px;
+  border:1px solid var(--line);border-radius:17px;background:var(--panel);
+  color:var(--text);text-align:left;cursor:pointer;appearance:none;
+  transition:transform .2s,border-color .2s;
+}
 .module:hover{transform:translateY(-3px);border-color:#607ed2}
+.module:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
 .module-icon{width:42px;height:42px;display:grid;place-items:center;background:#1c2d49;border-radius:13px;font-size:21px;margin-bottom:14px}
 .module h4{margin:0 0 7px;font-size:14px}
 .module p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}
+
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 .info-card,.profile-card,.record-card,.panel{padding:19px;border:1px solid var(--line);background:var(--panel);border-radius:16px}
 .info-card h3{margin:0 0 10px;font-size:15px}
 .info-card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
 .profile-card{max-width:650px}
 .profile-card h3{margin-top:0}
-.page-description{color:var(--muted);font-size:13px;line-height:1.6;margin-top:-5px}
+.page-description{color:var(--muted);font-size:13px;line-height:1.6;margin-top:7px}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
 .toolbar .search-input{flex:1;min-width:180px}
 .records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
@@ -110,14 +116,17 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .mobile-menu{display:none;background:var(--panel);border:1px solid var(--line);color:white;border-radius:10px;padding:9px}
 .footer{color:#687a96;font-size:11px;margin-top:35px;text-align:center}
 .toast{position:fixed;bottom:20px;right:20px;z-index:100;background:#172c43;border:1px solid #365274;color:white;padding:13px 17px;border-radius:12px;box-shadow:0 10px 35px #0006;max-width:min(90vw,380px);font-size:13px}
-body.light{--bg:#f1f5fb;--panel:#fff;--panel2:#e7eef8;--text:#142039;--muted:#60718a;--line:#d7e0ed}
+
+body.light{--bg:#f1f5fb;--panel:#fff;--text:#142039;--muted:#60718a;--line:#d7e0ed}
 body.light .sidebar{background:#e8eef7}
 body.light .nav-item{color:#354966}
 body.light .nav-item.active,body.light .nav-item:hover{background:#d6e2f3;color:#142039}
+body.light .module{color:#142039}
 body.light .field input,body.light .field select,body.light .field textarea,body.light .search-input,body.light .chat-form input{background:#f8faff;color:#142039}
 body.light .chat-box{background:#f8faff}
 body.light .chat-message.assistant{background:#eaf0f9;color:#142039}
 body.light .select-small{color:#142039}
+
 @media(max-width:1050px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){
   .sidebar{display:none;position:fixed;z-index:30;height:100vh;top:0;left:0;box-shadow:15px 0 50px #0008}
@@ -142,7 +151,6 @@ body.light .select-small{color:#142039}
 <body>
 <div class="app">
 
-<!-- AUTH -->
 <section id="authView" class="auth-wrap">
   <div class="auth-card">
     <div class="logo">
@@ -151,12 +159,13 @@ body.light .select-small{color:#142039}
     </div>
     <h2 id="authTitle">স্বাগতম</h2>
     <p class="muted" id="authSubtitle">আপনার ডিজিটাল জীবনের নতুন কেন্দ্র।</p>
+
     <form id="authForm">
       <div id="nameField" class="field hidden">
         <label>আপনার নাম</label><input id="name" maxlength="80">
       </div>
       <div class="field"><label>ইমেইল</label><input id="email" type="email" autocomplete="email" required></div>
-      <div class="field"><label>পাসওয়ার্ড</label><input id="password" type="password" minlength="8" autocomplete="current-password" required></div>
+      <div class="field"><label>পাসওয়ার্ড</label><input id="password" type="password" minlength="8" required></div>
       <div id="countryField" class="field hidden"><label>দেশ</label><input id="country" value="Bangladesh"></div>
       <div class="field">
         <label>ভাষা</label>
@@ -167,14 +176,15 @@ body.light .select-small{color:#142039}
       </div>
       <button class="primary full" id="authSubmit">লগইন</button>
     </form>
+
     <div id="authMessage" class="message"></div>
-    <div class="switch"><span id="switchText">অ্যাকাউন্ট নেই?</span>
+    <div class="switch">
+      <span id="switchText">অ্যাকাউন্ট নেই?</span>
       <button class="link" id="switchMode" type="button">রেজিস্ট্রেশন</button>
     </div>
   </div>
 </section>
 
-<!-- DASHBOARD -->
 <section id="dashboardView" class="layout hidden">
   <aside class="sidebar" id="sidebar">
     <div class="logo">
@@ -216,7 +226,7 @@ body.light .select-small{color:#142039}
       <div class="module-grid" id="homeModules"></div>
       <div class="section-head"><h3>Overview</h3></div>
       <div class="info-grid">
-        <div class="info-card"><h3>Personal Space</h3><p>আপনার ব্যক্তিগত ডিজিটাল জগৎ এখানে এক জায়গায় সাজানো থাকবে।</p></div>
+        <div class="info-card"><h3>Personal Space</h3><p>আপনার ব্যক্তিগত ডিজিটাল জগত এখানে এক জায়গায় সাজানো থাকবে।</p></div>
         <div class="info-card"><h3>Privacy & Security</h3><p>আপনার অ্যাকাউন্টের তথ্য আলাদাভাবে সংরক্ষণের জন্য তৈরি।</p></div>
       </div>
     </div>
@@ -265,7 +275,7 @@ body.light .select-small{color:#142039}
       </div>
     </div>
 
-    <div class="footer">NEXUS ONE · YOUR PERSONAL LIFE OPERATING SYSTEM · VERSION 2.0.0</div>
+    <div class="footer">NEXUS ONE · YOUR PERSONAL LIFE OPERATING SYSTEM · VERSION 2.1.0</div>
   </main>
 </section>
 </div>
@@ -275,22 +285,18 @@ body.light .select-small{color:#142039}
 <script>
 "use strict";
 
-const API_URL = "https://nexus-one-api.help-7fe.workers.dev";
-const tokenKey = "nexus_one_token";
+const API_URL="https://nexus-one-api.help-7fe.workers.dev";
+const tokenKey="nexus_one_token";
+const $=id=>document.getElementById(id);
+const getToken=()=>sessionStorage.getItem(tokenKey);
 
-const $ = id => document.getElementById(id);
-const getToken = () => sessionStorage.getItem(tokenKey);
+let currentUser=null;
+let isRegister=false;
+let activeModule="";
+let moduleRecords=[];
+let editingRecordId=null;
 
-let language = "bn";
-let isRegister = false;
-let currentUser = null;
-let currentPage = "home";
-let activeModule = "";
-let moduleRecords = [];
-let editingRecordId = null;
-let aiHistoryLoaded = false;
-
-const MODULES = [
+const MODULES=[
   {id:"nexus-ai",name:"NEXUS AI",icon:"✧",desc:"আপনার ব্যক্তিগত AI সহকারী"},
   {id:"life-manager",name:"LIFE MANAGER",icon:"◷",desc:"Task, routine, calendar ও goals"},
   {id:"money-master",name:"MONEY MASTER",icon:"৳",desc:"Income, expense, budget ও savings"},
@@ -301,7 +307,7 @@ const MODULES = [
   {id:"my-world",name:"MY WORLD",icon:"◎",desc:"Notes, diary ও personal records"}
 ];
 
-const FIELDS = {
+const FIELDS={
   "life-manager":[
     ["title","Task / Goal","text",true],
     ["category","Category","select",false,["Task","Routine","Calendar","Goal","Reminder"]],
@@ -353,44 +359,43 @@ const FIELDS = {
 };
 
 function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
+  return String(value??"").replace(/[&<>"']/g,c=>({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   })[c]);
 }
 
-function toast(text){
+function toast(message){
   const el=$("toast");
-  el.textContent=text;
+  el.textContent=message;
   el.classList.remove("hidden");
   clearTimeout(toast.timer);
   toast.timer=setTimeout(()=>el.classList.add("hidden"),3200);
 }
 
-function setMessage(id,text,type=""){
+function setMessage(id,message,type=""){
   const el=$(id);
   if(!el)return;
-  el.textContent=text;
+  el.textContent=message;
   el.className="message "+type;
 }
 
 async function api(path,options={}){
   const headers={...(options.headers||{})};
   if(getToken())headers.Authorization="Bearer "+getToken();
-
   const isForm=options.body instanceof FormData;
-  if(options.body!==undefined && !isForm && !(options.body instanceof ArrayBuffer)){
+  if(options.body!==undefined&&!isForm&&!(options.body instanceof ArrayBuffer)){
     headers["Content-Type"]="application/json";
   }
-
   const response=await fetch(API_URL+path,{...options,headers});
   let data;
   try{data=await response.json()}catch{throw new Error("Invalid server response")}
-  if(!response.ok || data.success===false){
-    throw new Error(data.error || "Request failed ("+response.status+")");
+  if(!response.ok||data.success===false){
+    throw new Error(data.error||"Request failed ("+response.status+")");
   }
   return data;
 }
 
+/* AUTH */
 function setAuthMode(){
   $("nameField").classList.toggle("hidden",!isRegister);
   $("countryField").classList.toggle("hidden",!isRegister);
@@ -398,7 +403,6 @@ function setAuthMode(){
   $("country").required=isRegister;
   $("password").autocomplete=isRegister?"new-password":"current-password";
   $("authTitle").textContent=isRegister?"অ্যাকাউন্ট তৈরি করুন":"স্বাগতম";
-  $("authSubtitle").textContent="আপনার ডিজিটাল জীবনের নতুন কেন্দ্র।";
   $("authSubmit").textContent=isRegister?"রেজিস্ট্রেশন":"লগইন";
   $("switchText").textContent=isRegister?"আগে থেকেই অ্যাকাউন্ট আছে?":"অ্যাকাউন্ট নেই?";
   $("switchMode").textContent=isRegister?"লগইন":"রেজিস্ট্রেশন";
@@ -408,11 +412,6 @@ $("switchMode").addEventListener("click",()=>{
   isRegister=!isRegister;
   setAuthMode();
   setMessage("authMessage","");
-});
-
-$("authLanguage").addEventListener("change",e=>{
-  language=e.target.value;
-  $("dashboardLanguage").value=language;
 });
 
 $("authForm").addEventListener("submit",async e=>{
@@ -441,14 +440,27 @@ $("authForm").addEventListener("submit",async e=>{
   }finally{button.disabled=false}
 });
 
+/* MODULE CARDS: DIRECT CLICK EVENTS */
 function renderModules(){
   const html=MODULES.map(m=>`
-    <div class="module" data-module="${m.id}" role="button" tabindex="0">
+    <button type="button" class="module" data-module="${m.id}">
       <div class="module-icon">${m.icon}</div>
-      <h4>${m.name}</h4><p>${m.desc}</p>
-    </div>`).join("");
+      <h4>${m.name}</h4>
+      <p>${m.desc}</p>
+    </button>
+  `).join("");
+
   $("homeModules").innerHTML=html;
   $("allModules").innerHTML=html;
+
+  // Each module card gets its own click listener.
+  document.querySelectorAll("button.module[data-module]").forEach(card=>{
+    card.addEventListener("click",function(){
+      const moduleId=this.dataset.module;
+      console.log("NEXUS ONE module clicked:",moduleId);
+      openModule(moduleId);
+    });
+  });
 }
 
 function showAuth(){
@@ -482,7 +494,6 @@ async function loadDashboard(){
 }
 
 function openPage(page){
-  currentPage=page;
   ["home","modules","module","profile","settings"].forEach(p=>{
     $(p+"Page").classList.toggle("hidden",p!==page);
   });
@@ -491,21 +502,10 @@ function openPage(page){
   });
   const titles={home:"Dashboard",modules:"Modules",module:"Module",profile:"My Profile",settings:"Settings"};
   $("pageTitle").textContent=titles[page]||"NEXUS ONE";
-  $("sidebar").style.display="";
-  $("sidebar").style.position="";
-}
-
-document.addEventListener("click",e=>{
-  const card=e.target.closest("[data-module]");
-  if(card)openModule(card.dataset.module);
-});
-
-document.addEventListener("keydown",e=>{
-  if((e.key==="Enter"||e.key===" ") && e.target.matches("[data-module]")){
-    e.preventDefault();
-    openModule(e.target.dataset.module);
+  if(window.innerWidth<=700){
+    $("sidebar").style.display="none";
   }
-});
+}
 
 document.querySelectorAll(".nav-item[data-page]").forEach(btn=>{
   btn.addEventListener("click",()=>openPage(btn.dataset.page));
@@ -513,7 +513,7 @@ document.querySelectorAll(".nav-item[data-page]").forEach(btn=>{
 
 $("mobileMenu").addEventListener("click",()=>{
   const sidebar=$("sidebar");
-  sidebar.style.display=sidebar.style.display==="flex"?"none":"flex";
+  sidebar.style.display=getComputedStyle(sidebar).display==="none"?"flex":"none";
 });
 
 $("logoutButton").addEventListener("click",async()=>{
@@ -524,10 +524,9 @@ $("logoutButton").addEventListener("click",async()=>{
 });
 
 $("dashboardLanguage").addEventListener("change",async e=>{
-  const lang=e.target.value;
   try{
-    await api("/preferences",{method:"PUT",body:JSON.stringify({language:lang})});
-    $("settingsLanguage").value=lang;
+    await api("/preferences",{method:"PUT",body:JSON.stringify({language:e.target.value})});
+    $("settingsLanguage").value=e.target.value;
     toast("Language preference saved");
   }catch(err){toast(err.message)}
 });
@@ -541,9 +540,9 @@ $("saveProfile").addEventListener("click",async()=>{
         country:$("profileCountry").value.trim()
       })
     });
-    currentUser={...currentUser,...result.user};
+    currentUser={...currentUser,...(result.user||{})};
     $("welcomeName").textContent=currentUser.name;
-    $("avatar").textContent=currentUser.name.charAt(0).toUpperCase();
+    $("avatar").textContent=(currentUser.name||"N").charAt(0).toUpperCase();
     setMessage("profileMessage","প্রোফাইল আপডেট হয়েছে","success");
   }catch(err){setMessage("profileMessage",err.message,"error")}
 });
@@ -563,43 +562,53 @@ $("saveSettings").addEventListener("click",async()=>{
 });
 
 function applyTheme(theme){
-  const light=theme==="light" ||
-    (theme==="system" && window.matchMedia("(prefers-color-scheme: light)").matches);
+  const light=theme==="light"||
+    (theme==="system"&&window.matchMedia("(prefers-color-scheme: light)").matches);
   document.body.classList.toggle("light",light);
 }
 
+/* OPEN MODULE */
 function openModule(id){
+  const module=MODULES.find(m=>m.id===id);
+  if(!module){
+    toast("Module not found: "+id);
+    return;
+  }
   activeModule=id;
   editingRecordId=null;
-  const module=MODULES.find(m=>m.id===id);
-  if(!module)return;
   $("moduleTitle").textContent=module.name;
   $("moduleDescription").textContent=module.desc;
   openPage("module");
-  if(id==="nexus-ai")renderAI();
-  else if(id==="smart-document")renderDocuments();
-  else renderRecordModule(id);
+
+  if(id==="nexus-ai"){
+    renderAI();
+  }else if(id==="smart-document"){
+    renderDocuments();
+  }else{
+    renderRecordModule(id);
+  }
 }
 
 $("backModules").addEventListener("click",()=>openPage("modules"));
 
+/* GENERIC MODULE RECORDS */
 function renderRecordModule(id){
-  const recordsUrl="/api/"+id;
   $("moduleContent").innerHTML=`
     <div class="toolbar">
       <input class="search-input" id="recordSearch" placeholder="Search records...">
-      <button class="primary" id="addRecord">+ Add New</button>
+      <button class="primary" id="addRecord" type="button">+ Add New</button>
     </div>
     <div id="recordFormHost"></div>
     <div id="recordList" class="records"><div class="empty">Loading...</div></div>`;
+
   $("addRecord").addEventListener("click",()=>showRecordForm(id));
+
   $("recordSearch").addEventListener("input",e=>{
     const term=e.target.value.toLowerCase();
-    const filtered=moduleRecords.filter(r=>
-      JSON.stringify(r).toLowerCase().includes(term)
-    );
+    const filtered=moduleRecords.filter(r=>JSON.stringify(r).toLowerCase().includes(term));
     renderRecordList(id,filtered);
   });
+
   loadRecords(id);
 }
 
@@ -618,10 +627,12 @@ function showRecordForm(id,record=null){
   editingRecordId=record?.id||null;
   const fields=FIELDS[id]||[];
   const data=record?.data||{};
+
   const inputs=fields.map(field=>{
     const [key,label,type,required,options]=field;
     const value=data[key]??"";
     let control="";
+
     if(type==="textarea"){
       control=`<textarea name="${key}" ${required?"required":""}>${escapeHTML(value)}</textarea>`;
     }else if(type==="select"){
@@ -632,6 +643,7 @@ function showRecordForm(id,record=null){
     }else{
       control=`<input name="${key}" type="${type}" value="${escapeHTML(value)}" ${required?"required":""} ${type==="number"?'min="0" step="any"':""}>`;
     }
+
     return `<div class="field ${type==="textarea"?"wide":""}">
       <label>${escapeHTML(label)}${required?" *":""}</label>${control}
     </div>`;
@@ -656,23 +668,26 @@ function showRecordForm(id,record=null){
   $("recordForm").addEventListener("submit",async e=>{
     e.preventDefault();
     const form=e.currentTarget;
-    const data={};
+    const formData={};
+
     for(const field of fields){
       const key=field[0];
       const input=form.elements.namedItem(key);
       let value=input.value.trim();
-      if(field[2]==="number" && value!=="")value=Number(value);
-      data[key]=value;
+      if(field[2]==="number"&&value!=="")value=Number(value);
+      formData[key]=value;
     }
-    const title=data.title||"Untitled";
+
+    const title=formData.title||"Untitled";
     const button=form.querySelector('button[type="submit"]');
     button.disabled=true;
+
     try{
-      const body=JSON.stringify({title,data});
+      const body=JSON.stringify({title,data:formData});
       if(editingRecordId){
-        await api(recordsUrl+"/"+editingRecordId,{method:"PUT",body});
+        await api("/api/"+id+"/"+editingRecordId,{method:"PUT",body});
       }else{
-        await api(recordsUrl,{method:"POST",body});
+        await api("/api/"+id,{method:"POST",body});
       }
       toast(editingRecordId?"Record updated":"Record saved");
       editingRecordId=null;
@@ -690,25 +705,26 @@ function renderRecordList(id,records){
     host.innerHTML='<div class="empty">এখনো কোনো রেকর্ড নেই। Add New দিয়ে শুরু করো।</div>';
     return;
   }
+
   host.innerHTML=records.map(record=>{
     const data=record.data||{};
     const pairs=Object.entries(data).filter(([k,v])=>
-      k!=="title" && v!=="" && v!==null && v!==undefined
+      k!=="title"&&v!==""&&v!==null&&v!==undefined
     );
     const detail=pairs.slice(0,6).map(([k,v])=>
       `<p><strong>${escapeHTML(k.replaceAll("_"," "))}:</strong> ${escapeHTML(v)}</p>`
     ).join("");
-    return `
-      <article class="record-card">
-        <span class="tag">${escapeHTML(id.replaceAll("-"," ").toUpperCase())}</span>
-        <h4>${escapeHTML(record.title||"Untitled")}</h4>
-        ${detail}
-        <p style="font-size:10px">Updated: ${escapeHTML(record.updated_at||record.created_at||"")}</p>
-        <div class="record-actions">
-          <button class="small-btn" data-edit="${escapeHTML(record.id)}">Edit</button>
-          <button class="danger" data-delete="${escapeHTML(record.id)}">Delete</button>
-        </div>
-      </article>`;
+
+    return `<article class="record-card">
+      <span class="tag">${escapeHTML(id.replaceAll("-"," ").toUpperCase())}</span>
+      <h4>${escapeHTML(record.title||"Untitled")}</h4>
+      ${detail}
+      <p style="font-size:10px">Updated: ${escapeHTML(record.updated_at||record.created_at||"")}</p>
+      <div class="record-actions">
+        <button class="small-btn" data-edit="${escapeHTML(record.id)}" type="button">Edit</button>
+        <button class="danger" data-delete="${escapeHTML(record.id)}" type="button">Delete</button>
+      </div>
+    </article>`;
   }).join("");
 
   host.querySelectorAll("[data-edit]").forEach(btn=>{
@@ -731,16 +747,13 @@ function renderRecordList(id,records){
   });
 }
 
-// ===============================
-// NEXUS AI
-// ===============================
-
+/* NEXUS AI */
 function renderAI(){
   $("moduleContent").innerHTML=`
     <div class="panel">
       <div class="section-head" style="margin-top:0">
         <div><h3>NEXUS AI Assistant</h3><p class="page-description">তোমার ব্যক্তিগত AI সহকারীকে প্রশ্ন করো।</p></div>
-        <button class="small-btn" id="clearChat">Reload History</button>
+        <button class="small-btn" id="reloadChat" type="button">Reload History</button>
       </div>
       <div class="chat-box" id="chatBox"><div class="empty">Loading conversation...</div></div>
       <form class="chat-form" id="chatForm">
@@ -749,8 +762,9 @@ function renderAI(){
       </form>
       <div id="chatStatus" class="message"></div>
     </div>`;
+
   loadAIHistory();
-  $("clearChat").addEventListener("click",loadAIHistory);
+  $("reloadChat").addEventListener("click",loadAIHistory);
   $("chatForm").addEventListener("submit",sendAIMessage);
 }
 
@@ -774,7 +788,6 @@ async function loadAIHistory(){
     if(!(result.messages||[]).length){
       $("chatBox").innerHTML='<div class="empty">NEXUS AI-তে স্বাগতম! কীভাবে সাহায্য করতে পারি?</div>';
     }
-    aiHistoryLoaded=true;
   }catch(err){
     $("chatBox").innerHTML=`<div class="empty">${escapeHTML(err.message)}</div>`;
   }
@@ -785,12 +798,14 @@ async function sendAIMessage(e){
   const input=$("chatInput");
   const message=input.value.trim();
   if(!message)return;
+
   const button=$("chatSend");
   button.disabled=true;
   input.disabled=true;
   addChatMessage("user",message);
   input.value="";
   setMessage("chatStatus","AI উত্তর তৈরি করছে...");
+
   try{
     const result=await api("/api/ai/chat",{
       method:"POST",body:JSON.stringify({message})
@@ -798,7 +813,7 @@ async function sendAIMessage(e){
     addChatMessage("assistant",result.message||"কোনো উত্তর পাওয়া যায়নি।");
     setMessage("chatStatus","");
   }catch(err){
-    addChatMessage("assistant","দুঃখিত, সমস্যা হয়েছে: "+err.message);
+    addChatMessage("assistant","সমস্যা হয়েছে: "+err.message);
     setMessage("chatStatus",err.message,"error");
   }finally{
     button.disabled=false;
@@ -807,10 +822,7 @@ async function sendAIMessage(e){
   }
 }
 
-// ===============================
-// SMART DOCUMENT
-// ===============================
-
+/* SMART DOCUMENT */
 function renderDocuments(){
   $("moduleContent").innerHTML=`
     <div class="panel">
@@ -824,7 +836,10 @@ function renderDocuments(){
         <div id="documentMessage" class="message"></div>
       </form>
     </div>
-    <div class="section-head"><h3>My Documents</h3><button class="small-btn" id="refreshDocuments">Refresh</button></div>
+    <div class="section-head">
+      <h3>My Documents</h3>
+      <button class="small-btn" id="refreshDocuments" type="button">Refresh</button>
+    </div>
     <div class="panel" id="documentList">Loading documents...</div>`;
 
   $("documentForm").addEventListener("submit",uploadDocument);
@@ -836,13 +851,16 @@ async function uploadDocument(e){
   e.preventDefault();
   const file=$("documentFile").files[0];
   if(!file)return;
+
   if(file.size>10*1024*1024){
     setMessage("documentMessage","ফাইল ১০ MB-এর চেয়ে বড়।","error");
     return;
   }
+
   const button=$("uploadDocument");
   button.disabled=true;
   setMessage("documentMessage","Uploading...");
+
   try{
     const response=await fetch(API_URL+"/api/documents/upload",{
       method:"POST",
@@ -866,13 +884,16 @@ async function uploadDocument(e){
 async function loadDocuments(){
   const host=$("documentList");
   host.textContent="Loading documents...";
+
   try{
     const result=await api("/api/documents");
     const docs=result.documents||[];
+
     if(!docs.length){
       host.innerHTML='<div class="empty">এখনো কোনো Document Upload করা হয়নি।</div>';
       return;
     }
+
     host.innerHTML=docs.map(doc=>`
       <div class="file-row">
         <div style="min-width:0">
@@ -880,14 +901,15 @@ async function loadDocuments(){
           <small>${formatBytes(doc.file_size)} · ${escapeHTML(doc.created_at||"")}</small>
         </div>
         <div style="display:flex;gap:7px;flex-shrink:0">
-          <button class="small-btn" data-download="${escapeHTML(doc.id)}">Download</button>
-          <button class="danger" data-doc-delete="${escapeHTML(doc.id)}">Delete</button>
+          <button class="small-btn" data-download="${escapeHTML(doc.id)}" type="button">Download</button>
+          <button class="danger" data-doc-delete="${escapeHTML(doc.id)}" type="button">Delete</button>
         </div>
       </div>`).join("");
 
     host.querySelectorAll("[data-download]").forEach(btn=>{
       btn.addEventListener("click",()=>downloadDocument(btn.dataset.download));
     });
+
     host.querySelectorAll("[data-doc-delete]").forEach(btn=>{
       btn.addEventListener("click",()=>deleteDocument(btn.dataset.docDelete));
     });
@@ -934,12 +956,8 @@ async function deleteDocument(id){
   }catch(err){toast(err.message)}
 }
 
-// ===============================
-// STARTUP
-// ===============================
-
+/* START */
 async function startApp(){
-  renderModules();
   setAuthMode();
   if(!getToken()){
     showAuth();
