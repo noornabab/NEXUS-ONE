@@ -1,0 +1,585 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080d19">
+<meta name="description" content="NEXUS ONE — Your Personal Life Operating System">
+<title>NEXUS ONE</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<style>
+:root{
+  --bg:#080d19;--panel:#101a2b;--panel2:#142239;
+  --text:#f4f7ff;--muted:#91a0b8;--line:#263650;
+  --primary:#6d8cff;--accent:#36d6c2;--danger:#ff647c;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,Arial,sans-serif;min-height:100vh;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.app{min-height:100vh}
+.auth-wrap{
+  min-height:100vh;display:grid;place-items:center;padding:22px;
+  background:radial-gradient(ellipse at top,#172b50 0%,#080d19 65%);
+}
+.auth-card{
+  width:min(100%,440px);padding:32px;border:1px solid var(--line);
+  background:#101a2bed;border-radius:24px;
+  box-shadow:0 25px 80px #0007;
+}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.logo-icon{
+  width:48px;height:48px;border-radius:15px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#6d8cff,#36d6c2);
+  color:#07111d;font-weight:900;font-size:22px;
+}
+.logo h1{font-size:20px;letter-spacing:2px;margin:0}
+.logo small{color:var(--muted)}
+.auth-card h2{font-size:25px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.field{margin-top:17px}
+.field label{display:block;font-size:13px;margin-bottom:8px;color:#c6d2e7}
+.field input,.field select{
+  width:100%;height:48px;border-radius:12px;
+  border:1px solid var(--line);background:#0b1424;
+  color:white;padding:0 14px;outline:none;
+}
+.field input:focus,.field select:focus{border-color:var(--primary)}
+.primary{
+  border:0;border-radius:12px;background:linear-gradient(110deg,#6d8cff,#4770ed);
+  color:white;font-weight:700;padding:14px 18px;
+}
+.full{width:100%;margin-top:22px}
+.switch{text-align:center;margin-top:20px;font-size:13px;color:var(--muted)}
+.link{color:#83a1ff;background:none;border:0;font-weight:700}
+.message{margin-top:15px;font-size:13px;line-height:1.5}
+.message.error{color:#ff8292}
+.message.success{color:#58dfba}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:255px;flex-shrink:0;background:#0c1423;
+  border-right:1px solid var(--line);padding:24px 16px;
+  display:flex;flex-direction:column;
+}
+.sidebar .logo{padding:0 8px;margin-bottom:35px}
+.nav-label{font-size:10px;letter-spacing:2px;color:#65758e;padding:0 12px;margin:14px 0}
+.nav-item{
+  display:flex;align-items:center;gap:13px;width:100%;
+  border:0;background:transparent;color:#a9b8cf;
+  padding:13px 14px;border-radius:12px;text-align:left;margin:3px 0;
+}
+.nav-item.active,.nav-item:hover{background:#1a2a45;color:white}
+.nav-icon{font-size:19px;width:23px;text-align:center}
+.sidebar-bottom{margin-top:auto}
+.main{flex:1;min-width:0;padding:28px 34px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:30px}
+.topbar h2{margin:0;font-size:23px}
+.top-actions{display:flex;align-items:center;gap:10px}
+.select-small{
+  background:var(--panel);color:white;border:1px solid var(--line);
+  padding:10px;border-radius:10px;max-width:130px;
+}
+.avatar{
+  width:39px;height:39px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,#6d8cff,#36d6c2);font-weight:800;color:#07111d;
+}
+.welcome{
+  padding:27px;border:1px solid #30476b;border-radius:20px;
+  background:linear-gradient(115deg,#172c4c,#14253a 65%,#12383b);
+  margin-bottom:25px;
+}
+.welcome h1{margin:0 0 8px;font-size:26px}
+.welcome p{margin:0;color:#b8c7dc;font-size:14px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:28px 0 16px}
+.section-head h3{margin:0;font-size:17px}
+.module-grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;
+}
+.module{
+  min-height:150px;padding:20px;border:1px solid var(--line);
+  border-radius:17px;background:var(--panel);transition:.2s;
+}
+.module:hover{transform:translateY(-3px);border-color:#607ed2}
+.module-icon{
+  width:42px;height:42px;display:grid;place-items:center;
+  background:#1c2d49;border-radius:13px;font-size:21px;margin-bottom:16px;
+}
+.module h4{margin:0 0 7px;font-size:14px}
+.module p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.info-card{padding:20px;border:1px solid var(--line);background:var(--panel);border-radius:16px}
+.info-card h3{margin:0 0 10px;font-size:15px}
+.info-card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+.profile-card{max-width:600px;padding:24px;background:var(--panel);border:1px solid var(--line);border-radius:18px}
+.profile-card .field{margin-top:18px}
+.profile-card .primary{margin-top:22px}
+.mobile-menu{display:none}
+.footer{color:#687a96;font-size:11px;margin-top:35px;text-align:center}
+@media(max-width:1050px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+  .sidebar{display:none}
+  .main{padding:20px 15px 30px}
+  .topbar{margin-bottom:20px}
+  .topbar h2{font-size:18px}
+  .mobile-menu{display:block;background:var(--panel);border:1px solid var(--line);color:white;border-radius:10px;padding:9px}
+  .module-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .module{padding:15px;min-height:140px}
+  .welcome{padding:21px}
+  .welcome h1{font-size:21px}
+  .info-grid{grid-template-columns:1fr}
+  .auth-card{padding:25px 20px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<section id="authView" class="auth-wrap">
+  <div class="auth-card">
+    <div class="logo">
+      <div class="logo-icon">N</div>
+      <div><h1>NEXUS ONE</h1><small>YOUR LIFE. ONE SYSTEM.</small></div>
+    </div>
+    <h2 id="authTitle">স্বাগতম</h2>
+    <p class="muted" id="authSubtitle">আপনার ডিজিটাল জীবনের নতুন কেন্দ্র।</p>
+    <form id="authForm">
+      <div id="nameField" class="field hidden">
+        <label id="nameLabel">আপনার নাম</label>
+        <input id="name" autocomplete="name" maxlength="80">
+      </div>
+      <div class="field">
+        <label id="emailLabel">ইমেইল</label>
+        <input id="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label id="passwordLabel">পাসওয়ার্ড</label>
+        <input id="password" type="password" autocomplete="current-password" minlength="8" required>
+      </div>
+      <div id="countryField" class="field hidden">
+        <label id="countryLabel">দেশ</label>
+        <input id="country" value="Bangladesh">
+      </div>
+      <div class="field">
+        <label id="languageLabel">ভাষা</label>
+        <select id="authLanguage">
+          <option value="bn">বাংলা</option>
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+      </div>
+      <button class="primary full" id="authSubmit" type="submit">লগইন</button>
+    </form>
+    <div id="authMessage" class="message"></div>
+    <div class="switch"><span id="switchText">অ্যাকাউন্ট নেই?</span>
+      <button class="link" id="switchMode" type="button">রেজিস্ট্রেশন</button>
+    </div>
+  </div>
+</section>
+
+<section id="dashboardView" class="layout hidden">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">N</div>
+      <div><h1>NEXUS ONE</h1><small>PERSONAL OS</small></div>
+    </div>
+    <div class="nav-label" data-i18n="workspace">WORKSPACE</div>
+    <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span><span data-i18n="dashboard">Dashboard</span></button>
+    <button class="nav-item" data-page="modules"><span class="nav-icon">◈</span><span data-i18n="modules">Modules</span></button>
+    <button class="nav-item" data-page="profile"><span class="nav-icon">◎</span><span data-i18n="profile">My Profile</span></button>
+    <div class="sidebar-bottom">
+      <div class="nav-label" data-i18n="account">ACCOUNT</div>
+      <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span><span data-i18n="settings">Settings</span></button>
+      <button class="nav-item" id="logoutButton"><span class="nav-icon">⇥</span><span data-i18n="logout">Logout</span></button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu" id="mobileMenu">☰</button>
+        <h2 id="pageTitle">Dashboard</h2>
+      </div>
+      <div class="top-actions">
+        <select class="select-small" id="dashboardLanguage">
+          <option value="bn">বাংলা</option>
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+        <div class="avatar" id="avatar">N</div>
+      </div>
+    </header>
+
+    <div id="homePage">
+      <div class="welcome">
+        <h1><span data-i18n="hello">স্বাগতম</span>, <span id="welcomeName">User</span> 👋</h1>
+        <p data-i18n="welcomeText">আপনার জীবন পরিচালনার একটি স্মার্ট ডিজিটাল কেন্দ্র।</p>
+      </div>
+      <div class="section-head"><h3 data-i18n="yourModules">Your Life Modules</h3></div>
+      <div class="module-grid" id="homeModules"></div>
+      <div class="section-head"><h3 data-i18n="overview">Overview</h3></div>
+      <div class="info-grid">
+        <div class="info-card"><h3 data-i18n="personalSpace">Personal Space</h3><p data-i18n="personalDesc">আপনার ব্যক্তিগত ডিজিটাল জগৎ এখানে এক জায়গায় সাজানো থাকবে।</p></div>
+        <div class="info-card"><h3 data-i18n="privacy">Privacy & Security</h3><p data-i18n="privacyDesc">আপনার অ্যাকাউন্টের তথ্য আলাদাভাবে সংরক্ষণের জন্য তৈরি।</p></div>
+      </div>
+    </div>
+
+    <div id="modulesPage" class="hidden">
+      <div class="section-head"><h3 data-i18n="yourModules">Your Life Modules</h3></div>
+      <div class="module-grid" id="allModules"></div>
+    </div>
+
+    <div id="profilePage" class="hidden">
+      <div class="profile-card">
+        <h3 data-i18n="profile">My Profile</h3>
+        <div class="field"><label data-i18n="name">Name</label><input id="profileName"></div>
+        <div class="field"><label data-i18n="email">Email</label><input id="profileEmail" disabled></div>
+        <div class="field"><label data-i18n="country">Country</label><input id="profileCountry"></div>
+        <button class="primary" id="saveProfile" data-i18n="save">Save Changes</button>
+        <div id="profileMessage" class="message"></div>
+      </div>
+    </div>
+
+    <div id="settingsPage" class="hidden">
+      <div class="profile-card">
+        <h3 data-i18n="settings">Settings</h3>
+        <div class="field"><label data-i18n="language">Language</label>
+          <select id="settingsLanguage">
+            <option value="bn">বাংলা</option><option value="en">English</option>
+            <option value="ar">العربية</option><option value="hi">हिन्दी</option>
+          </select>
+        </div>
+        <div class="field"><label data-i18n="theme">Theme</label>
+          <select id="themeSelect">
+            <option value="dark">Dark</option><option value="light">Light</option><option value="system">System</option>
+          </select>
+        </div>
+        <div class="field"><label><input type="checkbox" id="notifications" checked style="width:auto;height:auto"> <span data-i18n="notifications">Notifications</span></label></div>
+        <button class="primary" id="saveSettings" data-i18n="save">Save Changes</button>
+        <div id="settingsMessage" class="message"></div>
+      </div>
+    </div>
+
+    <div class="footer">NEXUS ONE · YOUR PERSONAL LIFE OPERATING SYSTEM · VERSION 1.0.0</div>
+  </main>
+</section>
+</div>
+
+<script>
+const API_URL = "https://nexus-one-api.help-7fe.workers.dev";
+
+const TEXT = {
+bn:{
+welcome:"স্বাগতম",subtitle:"আপনার ডিজিটাল জীবনের নতুন কেন্দ্র।",login:"লগইন",register:"রেজিস্ট্রেশন",
+name:"আপনার নাম",email:"ইমেইল",password:"পাসওয়ার্ড",country:"দেশ",language:"ভাষা",
+noAccount:"অ্যাকাউন্ট নেই?",haveAccount:"আগে থেকেই অ্যাকাউন্ট আছে?",hello:"স্বাগতম",
+welcomeText:"আপনার জীবন পরিচালনার একটি স্মার্ট ডিজিটাল কেন্দ্র।",
+workspace:"কর্মক্ষেত্র",dashboard:"ড্যাশবোর্ড",modules:"মডিউলসমূহ",profile:"আমার প্রোফাইল",
+account:"অ্যাকাউন্ট",settings:"সেটিংস",logout:"লগআউট",yourModules:"আপনার লাইফ মডিউল",
+overview:"সংক্ষিপ্ত পরিচিতি",personalSpace:"ব্যক্তিগত জায়গা",personalDesc:"আপনার ব্যক্তিগত ডিজিটাল জগৎ এখানে এক জায়গায় সাজানো থাকবে।",
+privacy:"গোপনীয়তা ও নিরাপত্তা",privacyDesc:"আপনার অ্যাকাউন্টের তথ্য আলাদাভাবে সংরক্ষণের জন্য তৈরি।",
+save:"পরিবর্তন সংরক্ষণ",theme:"থিম",notifications:"নোটিফিকেশন",
+modulesData:[
+["NEXUS AI","আপনার ব্যক্তিগত AI সহকারী"],["LIFE MANAGER","দৈনন্দিন জীবন ব্যবস্থাপনা"],
+["MONEY MASTER","অর্থ ও বাজেট ব্যবস্থাপনা"],["WORK & EARN","কাজ ও আয়ের সুযোগ"],
+["LIFE GUARD","নিরাপত্তা ও জরুরি সহায়তা"],["SMART DOCUMENT","ডিজিটাল ডকুমেন্ট"],
+["HUMAN NETWORK","মানুষ ও যোগাযোগ"],["MY WORLD","আপনার ব্যক্তিগত জগৎ"]]
+},
+en:{
+welcome:"Welcome",subtitle:"The new center of your digital life.",login:"Login",register:"Create Account",
+name:"Your Name",email:"Email",password:"Password",country:"Country",language:"Language",
+noAccount:"Don't have an account?",haveAccount:"Already have an account?",hello:"Welcome",
+welcomeText:"A smart digital center to manage your life.",
+workspace:"WORKSPACE",dashboard:"Dashboard",modules:"Modules",profile:"My Profile",
+account:"ACCOUNT",settings:"Settings",logout:"Logout",yourModules:"Your Life Modules",
+overview:"Overview",personalSpace:"Personal Space",personalDesc:"Your personal digital world, organized in one place.",
+privacy:"Privacy & Security",privacyDesc:"Designed to keep each user's account data separate.",
+save:"Save Changes",theme:"Theme",notifications:"Notifications",
+modulesData:[
+["NEXUS AI","Your personal AI assistant"],["LIFE MANAGER","Manage your daily life"],
+["MONEY MASTER","Manage money and budgets"],["WORK & EARN","Work and earning opportunities"],
+["LIFE GUARD","Safety and emergency support"],["SMART DOCUMENT","Digital documents"],
+["HUMAN NETWORK","People and connections"],["MY WORLD","Your personal world"]]
+},
+ar:{
+welcome:"مرحباً",subtitle:"المركز الجديد لحياتك الرقمية.",login:"تسجيل الدخول",register:"إنشاء حساب",
+name:"اسمك",email:"البريد الإلكتروني",password:"كلمة المرور",country:"الدولة",language:"اللغة",
+noAccount:"ليس لديك حساب؟",haveAccount:"لديك حساب بالفعل؟",hello:"مرحباً",
+welcomeText:"مركز رقمي ذكي لإدارة حياتك.",workspace:"مساحة العمل",dashboard:"لوحة التحكم",
+modules:"الوحدات",profile:"ملفي الشخصي",account:"الحساب",settings:"الإعدادات",logout:"تسجيل الخروج",
+yourModules:"وحدات حياتك",overview:"نظرة عامة",personalSpace:"المساحة الشخصية",
+personalDesc:"عالمك الرقمي الشخصي في مكان واحد.",privacy:"الخصوصية والأمان",
+privacyDesc:"مصمم للحفاظ على بيانات كل مستخدم بشكل منفصل.",save:"حفظ التغييرات",
+theme:"المظهر",notifications:"الإشعارات",
+modulesData:[
+["NEXUS AI","مساعدك الذكي الشخصي"],["LIFE MANAGER","إدارة حياتك اليومية"],
+["MONEY MASTER","إدارة الأموال والميزانية"],["WORK & EARN","العمل وفرص الدخل"],
+["LIFE GUARD","الأمان والمساعدة الطارئة"],["SMART DOCUMENT","المستندات الرقمية"],
+["HUMAN NETWORK","الأشخاص والتواصل"],["MY WORLD","عالمك الشخصي"]]
+},
+hi:{
+welcome:"स्वागत है",subtitle:"आपके डिजिटल जीवन का नया केंद्र।",login:"लॉगिन",register:"खाता बनाएं",
+name:"आपका नाम",email:"ईमेल",password:"पासवर्ड",country:"देश",language:"भाषा",
+noAccount:"खाता नहीं है?",haveAccount:"पहले से खाता है?",hello:"स्वागत है",
+welcomeText:"आपके जीवन को प्रबंधित करने का स्मार्ट डिजिटल केंद्र।",
+workspace:"कार्यस्थान",dashboard:"डैशबोर्ड",modules:"मॉड्यूल",profile:"मेरी प्रोफ़ाइल",
+account:"खाता",settings:"सेटिंग्स",logout:"लॉगआउट",yourModules:"आपके लाइफ मॉड्यूल",
+overview:"अवलोकन",personalSpace:"व्यक्तिगत स्थान",personalDesc:"आपकी डिजिटल दुनिया एक जगह पर।",
+privacy:"गोपनीयता और सुरक्षा",privacyDesc:"हर उपयोगकर्ता के डेटा को अलग रखने के लिए बनाया गया।",
+save:"परिवर्तन सहेजें",theme:"थीम",notifications:"सूचनाएं",
+modulesData:[
+["NEXUS AI","आपका व्यक्तिगत AI सहायक"],["LIFE MANAGER","दैनिक जीवन प्रबंधन"],
+["MONEY MASTER","धन और बजट प्रबंधन"],["WORK & EARN","काम और कमाई"],
+["LIFE GUARD","सुरक्षा और आपातकालीन सहायता"],["SMART DOCUMENT","डिजिटल दस्तावेज़"],
+["HUMAN NETWORK","लोग और संपर्क"],["MY WORLD","आपकी व्यक्तिगत दुनिया"]]
+}
+};
+
+const MODULE_ICONS=["✧","◷","৳","↗","⬡","▤","♧","◎"];
+let language="bn";
+let isRegister=false;
+let currentUser=null;
+let currentPage="home";
+
+const $=id=>document.getElementById(id);
+const tokenKey="nexus_one_token";
+const getToken=()=>sessionStorage.getItem(tokenKey);
+
+function message(id,text,type=""){
+  const el=$(id);el.textContent=text;el.className="message "+type;
+}
+
+function setLanguage(lang){
+  language=TEXT[lang]?lang:"en";
+  document.documentElement.lang=language;
+  document.documentElement.dir=language==="ar"?"rtl":"ltr";
+  const t=TEXT[language];
+
+  $("authLanguage").value=language;
+  $("dashboardLanguage").value=language;
+  $("settingsLanguage").value=language;
+
+  $("authTitle").textContent=isRegister?t.register:t.welcome;
+  $("authSubtitle").textContent=t.subtitle;
+  $("nameLabel").textContent=t.name;
+  $("emailLabel").textContent=t.email;
+  $("passwordLabel").textContent=t.password;
+  $("countryLabel").textContent=t.country;
+  $("languageLabel").textContent=t.language;
+  $("authSubmit").textContent=isRegister?t.register:t.login;
+  $("switchText").textContent=isRegister?t.haveAccount:t.noAccount;
+  $("switchMode").textContent=isRegister?t.login:t.register;
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.dataset.i18n;
+    if(t[key])el.textContent=t[key];
+  });
+
+  renderModules();
+  if(currentUser){
+    $("welcomeName").textContent=currentUser.name;
+    $("avatar").textContent=(currentUser.name||"N").charAt(0).toUpperCase();
+  }
+}
+
+function renderModules(){
+  const data=TEXT[language].modulesData;
+  const html=data.map((item,i)=>`
+    <div class="module">
+      <div class="module-icon">${MODULE_ICONS[i]}</div>
+      <h4>${item[0]}</h4><p>${item[1]}</p>
+    </div>`).join("");
+  $("homeModules").innerHTML=html;
+  $("allModules").innerHTML=html;
+}
+
+function showAuth(){
+  $("authView").classList.remove("hidden");
+  $("dashboardView").classList.add("hidden");
+}
+
+function showDashboard(){
+  $("authView").classList.add("hidden");
+  $("dashboardView").classList.remove("hidden");
+  $("welcomeName").textContent=currentUser.name;
+  $("avatar").textContent=(currentUser.name||"N").charAt(0).toUpperCase();
+  $("profileName").value=currentUser.name||"";
+  $("profileEmail").value=currentUser.email||"";
+  $("profileCountry").value=currentUser.country||"Bangladesh";
+  setLanguage(currentUser.language||language);
+  openPage("home");
+}
+
+function openPage(page){
+  currentPage=page;
+  ["home","modules","profile","settings"].forEach(p=>{
+    $(p+"Page").classList.toggle("hidden",p!==page);
+  });
+  document.querySelectorAll(".nav-item[data-page]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.page===page);
+  });
+  const titles={home:TEXT[language].dashboard,modules:TEXT[language].modules,profile:TEXT[language].profile,settings:TEXT[language].settings};
+  $("pageTitle").textContent=titles[page]||"NEXUS ONE";
+}
+
+async function api(path,options={}){
+  const headers={"Content-Type":"application/json",...(options.headers||{})};
+  if(getToken())headers.Authorization="Bearer "+getToken();
+  const response=await fetch(API_URL+path,{...options,headers});
+  let data;
+  try{data=await response.json()}catch{throw new Error("Invalid server response")}
+  if(!response.ok||data.success===false)throw new Error(data.error||"Request failed");
+  return data;
+}
+
+$("switchMode").addEventListener("click",()=>{
+  isRegister=!isRegister;
+  $("nameField").classList.toggle("hidden",!isRegister);
+  $("countryField").classList.toggle("hidden",!isRegister);
+  $("password").autocomplete=isRegister?"new-password":"current-password";
+  $("name").required=isRegister;
+  $("country").required=isRegister;
+  message("authMessage","");
+  setLanguage(language);
+});
+
+$("authLanguage").addEventListener("change",e=>setLanguage(e.target.value));
+$("dashboardLanguage").addEventListener("change",async e=>{
+  setLanguage(e.target.value);
+  try{await api("/preferences",{method:"PUT",body:JSON.stringify({language})})}catch(err){console.error(err)}
+  openPage(currentPage);
+});
+
+$("authForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const button=$("authSubmit");
+  button.disabled=true;
+  message("authMessage",language==="bn"?"অপেক্ষা করো...":"Please wait...");
+  try{
+    const payload={
+      email:$("email").value.trim(),
+      password:$("password").value,
+      language
+    };
+    if(isRegister){
+      payload.name=$("name").value.trim();
+      payload.country=$("country").value.trim();
+    }
+    const result=await api(isRegister?"/auth/register":"/auth/login",{
+      method:"POST",body:JSON.stringify(payload)
+    });
+    sessionStorage.setItem(tokenKey,result.token);
+    currentUser=result.user;
+    showDashboard();
+  }catch(err){
+    message("authMessage",err.message,"error");
+  }finally{
+    button.disabled=false;
+  }
+});
+
+$("logoutButton").addEventListener("click",async()=>{
+  try{await api("/auth/logout",{method:"POST",body:"{}"})}catch(err){console.error(err)}
+  sessionStorage.removeItem(tokenKey);
+  currentUser=null;
+  showAuth();
+});
+
+document.querySelectorAll(".nav-item[data-page]").forEach(btn=>{
+  btn.addEventListener("click",()=>openPage(btn.dataset.page));
+});
+
+$("mobileMenu").addEventListener("click",()=>{
+  const sidebar=document.querySelector(".sidebar");
+  const visible=sidebar.style.display==="flex";
+  sidebar.style.display=visible?"none":"flex";
+  if(!visible){
+    sidebar.style.position="fixed";
+    sidebar.style.zIndex="20";
+    sidebar.style.height="100vh";
+    sidebar.style.top="0";
+    sidebar.style.left="0";
+  }
+});
+
+$("saveProfile").addEventListener("click",async()=>{
+  try{
+    const result=await api("/profile",{
+      method:"PUT",
+      body:JSON.stringify({
+        name:$("profileName").value.trim(),
+        country:$("profileCountry").value.trim()
+      })
+    });
+    currentUser={...currentUser,...result.user};
+    $("welcomeName").textContent=currentUser.name;
+    message("profileMessage",language==="bn"?"প্রোফাইল আপডেট হয়েছে":"Profile updated","success");
+  }catch(err){message("profileMessage",err.message,"error")}
+});
+
+$("saveSettings").addEventListener("click",async()=>{
+  try{
+    const preferences={
+      language:$("settingsLanguage").value,
+      theme:$("themeSelect").value,
+      notifications:$("notifications").checked
+    };
+    await api("/preferences",{method:"PUT",body:JSON.stringify(preferences)});
+    setLanguage(preferences.language);
+    applyTheme(preferences.theme);
+    openPage("settings");
+    message("settingsMessage",language==="bn"?"সেটিংস সংরক্ষিত হয়েছে":"Settings saved","success");
+  }catch(err){message("settingsMessage",err.message,"error")}
+});
+
+function applyTheme(theme){
+  if(theme==="light"){
+    document.documentElement.style.setProperty("--bg","#f1f5fb");
+    document.documentElement.style.setProperty("--panel","#ffffff");
+    document.documentElement.style.setProperty("--panel2","#e7eef8");
+    document.documentElement.style.setProperty("--text","#142039");
+    document.documentElement.style.setProperty("--muted","#60718a");
+    document.documentElement.style.setProperty("--line","#d7e0ed");
+  }else{
+    document.documentElement.style.setProperty("--bg","#080d19");
+    document.documentElement.style.setProperty("--panel","#101a2b");
+    document.documentElement.style.setProperty("--panel2","#142239");
+    document.documentElement.style.setProperty("--text","#f4f7ff");
+    document.documentElement.style.setProperty("--muted","#91a0b8");
+    document.documentElement.style.setProperty("--line","#263650");
+  }
+}
+
+async function startApp(){
+  setLanguage(language);
+  if(!getToken()){showAuth();return}
+  try{
+    const result=await api("/auth/me");
+    currentUser=result.user;
+    const prefs=result.preferences||{};
+    language=prefs.language||currentUser.language||"bn";
+    $("themeSelect").value=prefs.theme||"dark";
+    $("notifications").checked=prefs.notifications!==false;
+    applyTheme(prefs.theme||"dark");
+    showDashboard();
+  }catch(err){
+    sessionStorage.removeItem(tokenKey);
+    showAuth();
+  }
+}
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));
+}
+
+startApp();
+</script>
+</body>
+</html>
