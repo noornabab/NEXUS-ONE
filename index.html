@@ -8,6 +8,7 @@
 <meta name="description" content="NEXUS ONE — Your Personal Life Operating System">
 <title>NEXUS ONE</title>
 <link rel="manifest" href="./manifest.webmanifest">
+
 <style>
 :root{
   --bg:#080d19;--panel:#101a2b;--panel2:#142239;
@@ -15,131 +16,133 @@
   --primary:#6d8cff;--accent:#36d6c2;--danger:#ff647c;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,Arial,sans-serif;min-height:100vh;
-}
-button,input,select{font:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
 .app{min-height:100vh}
-.auth-wrap{
-  min-height:100vh;display:grid;place-items:center;padding:22px;
-  background:radial-gradient(ellipse at top,#172b50 0%,#080d19 65%);
-}
-.auth-card{
-  width:min(100%,440px);padding:32px;border:1px solid var(--line);
-  background:#101a2bed;border-radius:24px;
-  box-shadow:0 25px 80px #0007;
-}
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at top,#172b50 0%,#080d19 65%)}
+.auth-card{width:min(100%,440px);padding:32px;border:1px solid var(--line);background:#101a2bed;border-radius:24px;box-shadow:0 25px 80px #0007}
 .logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-.logo-icon{
-  width:48px;height:48px;border-radius:15px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,#6d8cff,#36d6c2);
-  color:#07111d;font-weight:900;font-size:22px;
-}
+.logo-icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#6d8cff,#36d6c2);color:#07111d;font-weight:900;font-size:22px}
 .logo h1{font-size:20px;letter-spacing:2px;margin:0}
 .logo small{color:var(--muted)}
 .auth-card h2{font-size:25px;margin:0 0 8px}
 .muted{color:var(--muted);font-size:13px;line-height:1.6}
-.field{margin-top:17px}
+.field{margin-top:16px}
 .field label{display:block;font-size:13px;margin-bottom:8px;color:#c6d2e7}
-.field input,.field select{
-  width:100%;height:48px;border-radius:12px;
-  border:1px solid var(--line);background:#0b1424;
-  color:white;padding:0 14px;outline:none;
+.field input,.field select,.field textarea,
+.search-input{
+  width:100%;min-height:45px;border-radius:11px;border:1px solid var(--line);
+  background:#0b1424;color:white;padding:10px 13px;outline:none;
 }
-.field input:focus,.field select:focus{border-color:var(--primary)}
-.primary{
-  border:0;border-radius:12px;background:linear-gradient(110deg,#6d8cff,#4770ed);
-  color:white;font-weight:700;padding:14px 18px;
+.field textarea{min-height:105px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus,.search-input:focus{border-color:var(--primary)}
+.primary,.secondary,.danger,.small-btn{
+  border:0;border-radius:11px;padding:12px 16px;font-weight:700;
 }
+.primary{background:linear-gradient(110deg,#6d8cff,#4770ed);color:white}
+.secondary{background:#203451;color:#dce7ff;border:1px solid #354d70}
+.danger{background:#492333;color:#ff9aaa;border:1px solid #713246}
+.small-btn{padding:8px 11px;font-size:12px;background:#203451;color:#dce7ff}
 .full{width:100%;margin-top:22px}
+button:disabled{opacity:.55;cursor:not-allowed}
 .switch{text-align:center;margin-top:20px;font-size:13px;color:var(--muted)}
 .link{color:#83a1ff;background:none;border:0;font-weight:700}
-.message{margin-top:15px;font-size:13px;line-height:1.5}
+.message{margin-top:13px;font-size:13px;line-height:1.5;white-space:pre-wrap}
 .message.error{color:#ff8292}
 .message.success{color:#58dfba}
 .layout{display:flex;min-height:100vh}
-.sidebar{
-  width:255px;flex-shrink:0;background:#0c1423;
-  border-right:1px solid var(--line);padding:24px 16px;
-  display:flex;flex-direction:column;
-}
-.sidebar .logo{padding:0 8px;margin-bottom:35px}
+.sidebar{width:255px;flex-shrink:0;background:#0c1423;border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column}
+.sidebar .logo{padding:0 8px;margin-bottom:25px}
 .nav-label{font-size:10px;letter-spacing:2px;color:#65758e;padding:0 12px;margin:14px 0}
-.nav-item{
-  display:flex;align-items:center;gap:13px;width:100%;
-  border:0;background:transparent;color:#a9b8cf;
-  padding:13px 14px;border-radius:12px;text-align:left;margin:3px 0;
-}
+.nav-item{display:flex;align-items:center;gap:13px;width:100%;border:0;background:transparent;color:#a9b8cf;padding:12px 14px;border-radius:12px;text-align:left;margin:3px 0}
 .nav-item.active,.nav-item:hover{background:#1a2a45;color:white}
 .nav-icon{font-size:19px;width:23px;text-align:center}
 .sidebar-bottom{margin-top:auto}
-.main{flex:1;min-width:0;padding:28px 34px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:30px}
-.topbar h2{margin:0;font-size:23px}
+.main{flex:1;min-width:0;padding:26px 32px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}
+.topbar h2{margin:0;font-size:22px}
 .top-actions{display:flex;align-items:center;gap:10px}
-.select-small{
-  background:var(--panel);color:white;border:1px solid var(--line);
-  padding:10px;border-radius:10px;max-width:130px;
-}
-.avatar{
-  width:39px;height:39px;border-radius:50%;display:grid;place-items:center;
-  background:linear-gradient(135deg,#6d8cff,#36d6c2);font-weight:800;color:#07111d;
-}
-.welcome{
-  padding:27px;border:1px solid #30476b;border-radius:20px;
-  background:linear-gradient(115deg,#172c4c,#14253a 65%,#12383b);
-  margin-bottom:25px;
-}
+.select-small{background:var(--panel);color:white;border:1px solid var(--line);padding:10px;border-radius:10px;max-width:130px}
+.avatar{width:39px;height:39px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#6d8cff,#36d6c2);font-weight:800;color:#07111d}
+.welcome{padding:27px;border:1px solid #30476b;border-radius:20px;background:linear-gradient(115deg,#172c4c,#14253a 65%,#12383b);margin-bottom:25px}
 .welcome h1{margin:0 0 8px;font-size:26px}
 .welcome p{margin:0;color:#b8c7dc;font-size:14px}
-.section-head{display:flex;align-items:center;justify-content:space-between;margin:28px 0 16px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 15px}
 .section-head h3{margin:0;font-size:17px}
-.module-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;
-}
-.module{
-  min-height:150px;padding:20px;border:1px solid var(--line);
-  border-radius:17px;background:var(--panel);transition:.2s;
-}
+.module-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.module{min-height:145px;padding:19px;border:1px solid var(--line);border-radius:17px;background:var(--panel);transition:.2s;cursor:pointer}
 .module:hover{transform:translateY(-3px);border-color:#607ed2}
-.module-icon{
-  width:42px;height:42px;display:grid;place-items:center;
-  background:#1c2d49;border-radius:13px;font-size:21px;margin-bottom:16px;
-}
+.module-icon{width:42px;height:42px;display:grid;place-items:center;background:#1c2d49;border-radius:13px;font-size:21px;margin-bottom:14px}
 .module h4{margin:0 0 7px;font-size:14px}
 .module p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.info-card{padding:20px;border:1px solid var(--line);background:var(--panel);border-radius:16px}
+.info-card,.profile-card,.record-card,.panel{padding:19px;border:1px solid var(--line);background:var(--panel);border-radius:16px}
 .info-card h3{margin:0 0 10px;font-size:15px}
 .info-card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
-.profile-card{max-width:600px;padding:24px;background:var(--panel);border:1px solid var(--line);border-radius:18px}
-.profile-card .field{margin-top:18px}
-.profile-card .primary{margin-top:22px}
-.mobile-menu{display:none}
+.profile-card{max-width:650px}
+.profile-card h3{margin-top:0}
+.page-description{color:var(--muted);font-size:13px;line-height:1.6;margin-top:-5px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
+.toolbar .search-input{flex:1;min-width:180px}
+.records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.record-card{min-width:0}
+.record-card h4{margin:0 0 8px;font-size:15px;overflow-wrap:anywhere}
+.record-card p{font-size:12px;line-height:1.6;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;margin:5px 0}
+.record-actions{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+.tag{display:inline-block;padding:4px 8px;border-radius:7px;background:#203451;color:#b9ceff;font-size:10px;margin-bottom:8px}
+.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:15px;font-size:13px;grid-column:1/-1}
+.form-panel{max-width:760px;margin:15px 0;padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.form-grid .wide{grid-column:1/-1}
+.form-actions{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}
+.chat-box{height:min(55vh,520px);overflow:auto;padding:15px;background:#0b1424;border:1px solid var(--line);border-radius:15px}
+.chat-message{max-width:88%;padding:12px 14px;margin:9px 0;border-radius:13px;font-size:13px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.chat-message.user{margin-left:auto;background:#263f70}
+.chat-message.assistant{background:#17263c;border:1px solid #2a3d5b}
+.chat-form{display:flex;gap:9px;margin-top:12px}
+.chat-form input{flex:1;min-width:0;background:#0b1424;color:white;border:1px solid var(--line);border-radius:11px;padding:12px}
+.file-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.file-row:last-child{border-bottom:0}
+.file-row strong{font-size:13px;overflow-wrap:anywhere}
+.file-row small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.mobile-menu{display:none;background:var(--panel);border:1px solid var(--line);color:white;border-radius:10px;padding:9px}
 .footer{color:#687a96;font-size:11px;margin-top:35px;text-align:center}
+.toast{position:fixed;bottom:20px;right:20px;z-index:100;background:#172c43;border:1px solid #365274;color:white;padding:13px 17px;border-radius:12px;box-shadow:0 10px 35px #0006;max-width:min(90vw,380px);font-size:13px}
+body.light{--bg:#f1f5fb;--panel:#fff;--panel2:#e7eef8;--text:#142039;--muted:#60718a;--line:#d7e0ed}
+body.light .sidebar{background:#e8eef7}
+body.light .nav-item{color:#354966}
+body.light .nav-item.active,body.light .nav-item:hover{background:#d6e2f3;color:#142039}
+body.light .field input,body.light .field select,body.light .field textarea,body.light .search-input,body.light .chat-form input{background:#f8faff;color:#142039}
+body.light .chat-box{background:#f8faff}
+body.light .chat-message.assistant{background:#eaf0f9;color:#142039}
+body.light .select-small{color:#142039}
 @media(max-width:1050px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){
-  .sidebar{display:none}
-  .main{padding:20px 15px 30px}
+  .sidebar{display:none;position:fixed;z-index:30;height:100vh;top:0;left:0;box-shadow:15px 0 50px #0008}
+  .main{padding:18px 14px 28px}
   .topbar{margin-bottom:20px}
   .topbar h2{font-size:18px}
-  .mobile-menu{display:block;background:var(--panel);border:1px solid var(--line);color:white;border-radius:10px;padding:9px}
+  .mobile-menu{display:block}
   .module-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .module{padding:15px;min-height:140px}
-  .welcome{padding:21px}
+  .module{padding:14px;min-height:135px}
+  .welcome{padding:20px}
   .welcome h1{font-size:21px}
-  .info-grid{grid-template-columns:1fr}
+  .info-grid,.records{grid-template-columns:1fr}
   .auth-card{padding:25px 20px}
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .wide{grid-column:auto}
+  .chat-form{flex-wrap:wrap}
+  .chat-form button{width:100%}
 }
 </style>
 </head>
+
 <body>
 <div class="app">
 
+<!-- AUTH -->
 <section id="authView" class="auth-wrap">
   <div class="auth-card">
     <div class="logo">
@@ -150,31 +153,19 @@ button{cursor:pointer}
     <p class="muted" id="authSubtitle">আপনার ডিজিটাল জীবনের নতুন কেন্দ্র।</p>
     <form id="authForm">
       <div id="nameField" class="field hidden">
-        <label id="nameLabel">আপনার নাম</label>
-        <input id="name" autocomplete="name" maxlength="80">
+        <label>আপনার নাম</label><input id="name" maxlength="80">
       </div>
+      <div class="field"><label>ইমেইল</label><input id="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label>পাসওয়ার্ড</label><input id="password" type="password" minlength="8" autocomplete="current-password" required></div>
+      <div id="countryField" class="field hidden"><label>দেশ</label><input id="country" value="Bangladesh"></div>
       <div class="field">
-        <label id="emailLabel">ইমেইল</label>
-        <input id="email" type="email" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label id="passwordLabel">পাসওয়ার্ড</label>
-        <input id="password" type="password" autocomplete="current-password" minlength="8" required>
-      </div>
-      <div id="countryField" class="field hidden">
-        <label id="countryLabel">দেশ</label>
-        <input id="country" value="Bangladesh">
-      </div>
-      <div class="field">
-        <label id="languageLabel">ভাষা</label>
+        <label>ভাষা</label>
         <select id="authLanguage">
-          <option value="bn">বাংলা</option>
-          <option value="en">English</option>
-          <option value="ar">العربية</option>
-          <option value="hi">हिन्दी</option>
+          <option value="bn">বাংলা</option><option value="en">English</option>
+          <option value="ar">العربية</option><option value="hi">हिन्दी</option>
         </select>
       </div>
-      <button class="primary full" id="authSubmit" type="submit">লগইন</button>
+      <button class="primary full" id="authSubmit">লগইন</button>
     </form>
     <div id="authMessage" class="message"></div>
     <div class="switch"><span id="switchText">অ্যাকাউন্ট নেই?</span>
@@ -183,20 +174,21 @@ button{cursor:pointer}
   </div>
 </section>
 
+<!-- DASHBOARD -->
 <section id="dashboardView" class="layout hidden">
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="logo">
       <div class="logo-icon">N</div>
       <div><h1>NEXUS ONE</h1><small>PERSONAL OS</small></div>
     </div>
-    <div class="nav-label" data-i18n="workspace">WORKSPACE</div>
-    <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span><span data-i18n="dashboard">Dashboard</span></button>
-    <button class="nav-item" data-page="modules"><span class="nav-icon">◈</span><span data-i18n="modules">Modules</span></button>
-    <button class="nav-item" data-page="profile"><span class="nav-icon">◎</span><span data-i18n="profile">My Profile</span></button>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span>Dashboard</button>
+    <button class="nav-item" data-page="modules"><span class="nav-icon">◈</span>Modules</button>
+    <button class="nav-item" data-page="profile"><span class="nav-icon">◎</span>My Profile</button>
     <div class="sidebar-bottom">
-      <div class="nav-label" data-i18n="account">ACCOUNT</div>
-      <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span><span data-i18n="settings">Settings</span></button>
-      <button class="nav-item" id="logoutButton"><span class="nav-icon">⇥</span><span data-i18n="logout">Logout</span></button>
+      <div class="nav-label">ACCOUNT</div>
+      <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span>Settings</button>
+      <button class="nav-item" id="logoutButton"><span class="nav-icon">⇥</span>Logout</button>
     </div>
   </aside>
 
@@ -208,10 +200,8 @@ button{cursor:pointer}
       </div>
       <div class="top-actions">
         <select class="select-small" id="dashboardLanguage">
-          <option value="bn">বাংলা</option>
-          <option value="en">English</option>
-          <option value="ar">العربية</option>
-          <option value="hi">हिन्दी</option>
+          <option value="bn">বাংলা</option><option value="en">English</option>
+          <option value="ar">العربية</option><option value="hi">हिन्दी</option>
         </select>
         <div class="avatar" id="avatar">N</div>
       </div>
@@ -219,182 +209,243 @@ button{cursor:pointer}
 
     <div id="homePage">
       <div class="welcome">
-        <h1><span data-i18n="hello">স্বাগতম</span>, <span id="welcomeName">User</span> 👋</h1>
-        <p data-i18n="welcomeText">আপনার জীবন পরিচালনার একটি স্মার্ট ডিজিটাল কেন্দ্র।</p>
+        <h1>স্বাগতম, <span id="welcomeName">User</span> 👋</h1>
+        <p>আপনার জীবন পরিচালনার একটি স্মার্ট ডিজিটাল কেন্দ্র।</p>
       </div>
-      <div class="section-head"><h3 data-i18n="yourModules">Your Life Modules</h3></div>
+      <div class="section-head"><h3>Your Life Modules</h3></div>
       <div class="module-grid" id="homeModules"></div>
-      <div class="section-head"><h3 data-i18n="overview">Overview</h3></div>
+      <div class="section-head"><h3>Overview</h3></div>
       <div class="info-grid">
-        <div class="info-card"><h3 data-i18n="personalSpace">Personal Space</h3><p data-i18n="personalDesc">আপনার ব্যক্তিগত ডিজিটাল জগৎ এখানে এক জায়গায় সাজানো থাকবে।</p></div>
-        <div class="info-card"><h3 data-i18n="privacy">Privacy & Security</h3><p data-i18n="privacyDesc">আপনার অ্যাকাউন্টের তথ্য আলাদাভাবে সংরক্ষণের জন্য তৈরি।</p></div>
+        <div class="info-card"><h3>Personal Space</h3><p>আপনার ব্যক্তিগত ডিজিটাল জগৎ এখানে এক জায়গায় সাজানো থাকবে।</p></div>
+        <div class="info-card"><h3>Privacy & Security</h3><p>আপনার অ্যাকাউন্টের তথ্য আলাদাভাবে সংরক্ষণের জন্য তৈরি।</p></div>
       </div>
     </div>
 
     <div id="modulesPage" class="hidden">
-      <div class="section-head"><h3 data-i18n="yourModules">Your Life Modules</h3></div>
+      <div class="section-head"><h3>Your Life Modules</h3></div>
       <div class="module-grid" id="allModules"></div>
+    </div>
+
+    <div id="modulePage" class="hidden">
+      <div class="section-head">
+        <div><h3 id="moduleTitle">Module</h3><p class="page-description" id="moduleDescription"></p></div>
+        <button class="secondary" id="backModules">← Modules</button>
+      </div>
+      <div id="moduleContent"></div>
     </div>
 
     <div id="profilePage" class="hidden">
       <div class="profile-card">
-        <h3 data-i18n="profile">My Profile</h3>
-        <div class="field"><label data-i18n="name">Name</label><input id="profileName"></div>
-        <div class="field"><label data-i18n="email">Email</label><input id="profileEmail" disabled></div>
-        <div class="field"><label data-i18n="country">Country</label><input id="profileCountry"></div>
-        <button class="primary" id="saveProfile" data-i18n="save">Save Changes</button>
+        <h3>My Profile</h3>
+        <div class="field"><label>Name</label><input id="profileName" maxlength="80"></div>
+        <div class="field"><label>Email</label><input id="profileEmail" disabled></div>
+        <div class="field"><label>Country</label><input id="profileCountry" maxlength="80"></div>
+        <button class="primary" id="saveProfile" style="margin-top:20px">Save Changes</button>
         <div id="profileMessage" class="message"></div>
       </div>
     </div>
 
     <div id="settingsPage" class="hidden">
       <div class="profile-card">
-        <h3 data-i18n="settings">Settings</h3>
-        <div class="field"><label data-i18n="language">Language</label>
+        <h3>Settings</h3>
+        <div class="field"><label>Language</label>
           <select id="settingsLanguage">
             <option value="bn">বাংলা</option><option value="en">English</option>
             <option value="ar">العربية</option><option value="hi">हिन्दी</option>
           </select>
         </div>
-        <div class="field"><label data-i18n="theme">Theme</label>
+        <div class="field"><label>Theme</label>
           <select id="themeSelect">
             <option value="dark">Dark</option><option value="light">Light</option><option value="system">System</option>
           </select>
         </div>
-        <div class="field"><label><input type="checkbox" id="notifications" checked style="width:auto;height:auto"> <span data-i18n="notifications">Notifications</span></label></div>
-        <button class="primary" id="saveSettings" data-i18n="save">Save Changes</button>
+        <div class="field"><label><input type="checkbox" id="notifications" checked style="width:auto"> Notifications</label></div>
+        <button class="primary" id="saveSettings" style="margin-top:20px">Save Changes</button>
         <div id="settingsMessage" class="message"></div>
       </div>
     </div>
 
-    <div class="footer">NEXUS ONE · YOUR PERSONAL LIFE OPERATING SYSTEM · VERSION 1.0.0</div>
+    <div class="footer">NEXUS ONE · YOUR PERSONAL LIFE OPERATING SYSTEM · VERSION 2.0.0</div>
   </main>
 </section>
 </div>
 
-<script>
-const API_URL = "https://nexus-one-api.help-7fe.workers.dev";
+<div id="toast" class="toast hidden"></div>
 
-const TEXT = {
-bn:{
-welcome:"স্বাগতম",subtitle:"আপনার ডিজিটাল জীবনের নতুন কেন্দ্র।",login:"লগইন",register:"রেজিস্ট্রেশন",
-name:"আপনার নাম",email:"ইমেইল",password:"পাসওয়ার্ড",country:"দেশ",language:"ভাষা",
-noAccount:"অ্যাকাউন্ট নেই?",haveAccount:"আগে থেকেই অ্যাকাউন্ট আছে?",hello:"স্বাগতম",
-welcomeText:"আপনার জীবন পরিচালনার একটি স্মার্ট ডিজিটাল কেন্দ্র।",
-workspace:"কর্মক্ষেত্র",dashboard:"ড্যাশবোর্ড",modules:"মডিউলসমূহ",profile:"আমার প্রোফাইল",
-account:"অ্যাকাউন্ট",settings:"সেটিংস",logout:"লগআউট",yourModules:"আপনার লাইফ মডিউল",
-overview:"সংক্ষিপ্ত পরিচিতি",personalSpace:"ব্যক্তিগত জায়গা",personalDesc:"আপনার ব্যক্তিগত ডিজিটাল জগৎ এখানে এক জায়গায় সাজানো থাকবে।",
-privacy:"গোপনীয়তা ও নিরাপত্তা",privacyDesc:"আপনার অ্যাকাউন্টের তথ্য আলাদাভাবে সংরক্ষণের জন্য তৈরি।",
-save:"পরিবর্তন সংরক্ষণ",theme:"থিম",notifications:"নোটিফিকেশন",
-modulesData:[
-["NEXUS AI","আপনার ব্যক্তিগত AI সহকারী"],["LIFE MANAGER","দৈনন্দিন জীবন ব্যবস্থাপনা"],
-["MONEY MASTER","অর্থ ও বাজেট ব্যবস্থাপনা"],["WORK & EARN","কাজ ও আয়ের সুযোগ"],
-["LIFE GUARD","নিরাপত্তা ও জরুরি সহায়তা"],["SMART DOCUMENT","ডিজিটাল ডকুমেন্ট"],
-["HUMAN NETWORK","মানুষ ও যোগাযোগ"],["MY WORLD","আপনার ব্যক্তিগত জগৎ"]]
-},
-en:{
-welcome:"Welcome",subtitle:"The new center of your digital life.",login:"Login",register:"Create Account",
-name:"Your Name",email:"Email",password:"Password",country:"Country",language:"Language",
-noAccount:"Don't have an account?",haveAccount:"Already have an account?",hello:"Welcome",
-welcomeText:"A smart digital center to manage your life.",
-workspace:"WORKSPACE",dashboard:"Dashboard",modules:"Modules",profile:"My Profile",
-account:"ACCOUNT",settings:"Settings",logout:"Logout",yourModules:"Your Life Modules",
-overview:"Overview",personalSpace:"Personal Space",personalDesc:"Your personal digital world, organized in one place.",
-privacy:"Privacy & Security",privacyDesc:"Designed to keep each user's account data separate.",
-save:"Save Changes",theme:"Theme",notifications:"Notifications",
-modulesData:[
-["NEXUS AI","Your personal AI assistant"],["LIFE MANAGER","Manage your daily life"],
-["MONEY MASTER","Manage money and budgets"],["WORK & EARN","Work and earning opportunities"],
-["LIFE GUARD","Safety and emergency support"],["SMART DOCUMENT","Digital documents"],
-["HUMAN NETWORK","People and connections"],["MY WORLD","Your personal world"]]
-},
-ar:{
-welcome:"مرحباً",subtitle:"المركز الجديد لحياتك الرقمية.",login:"تسجيل الدخول",register:"إنشاء حساب",
-name:"اسمك",email:"البريد الإلكتروني",password:"كلمة المرور",country:"الدولة",language:"اللغة",
-noAccount:"ليس لديك حساب؟",haveAccount:"لديك حساب بالفعل؟",hello:"مرحباً",
-welcomeText:"مركز رقمي ذكي لإدارة حياتك.",workspace:"مساحة العمل",dashboard:"لوحة التحكم",
-modules:"الوحدات",profile:"ملفي الشخصي",account:"الحساب",settings:"الإعدادات",logout:"تسجيل الخروج",
-yourModules:"وحدات حياتك",overview:"نظرة عامة",personalSpace:"المساحة الشخصية",
-personalDesc:"عالمك الرقمي الشخصي في مكان واحد.",privacy:"الخصوصية والأمان",
-privacyDesc:"مصمم للحفاظ على بيانات كل مستخدم بشكل منفصل.",save:"حفظ التغييرات",
-theme:"المظهر",notifications:"الإشعارات",
-modulesData:[
-["NEXUS AI","مساعدك الذكي الشخصي"],["LIFE MANAGER","إدارة حياتك اليومية"],
-["MONEY MASTER","إدارة الأموال والميزانية"],["WORK & EARN","العمل وفرص الدخل"],
-["LIFE GUARD","الأمان والمساعدة الطارئة"],["SMART DOCUMENT","المستندات الرقمية"],
-["HUMAN NETWORK","الأشخاص والتواصل"],["MY WORLD","عالمك الشخصي"]]
-},
-hi:{
-welcome:"स्वागत है",subtitle:"आपके डिजिटल जीवन का नया केंद्र।",login:"लॉगिन",register:"खाता बनाएं",
-name:"आपका नाम",email:"ईमेल",password:"पासवर्ड",country:"देश",language:"भाषा",
-noAccount:"खाता नहीं है?",haveAccount:"पहले से खाता है?",hello:"स्वागत है",
-welcomeText:"आपके जीवन को प्रबंधित करने का स्मार्ट डिजिटल केंद्र।",
-workspace:"कार्यस्थान",dashboard:"डैशबोर्ड",modules:"मॉड्यूल",profile:"मेरी प्रोफ़ाइल",
-account:"खाता",settings:"सेटिंग्स",logout:"लॉगआउट",yourModules:"आपके लाइफ मॉड्यूल",
-overview:"अवलोकन",personalSpace:"व्यक्तिगत स्थान",personalDesc:"आपकी डिजिटल दुनिया एक जगह पर।",
-privacy:"गोपनीयता और सुरक्षा",privacyDesc:"हर उपयोगकर्ता के डेटा को अलग रखने के लिए बनाया गया।",
-save:"परिवर्तन सहेजें",theme:"थीम",notifications:"सूचनाएं",
-modulesData:[
-["NEXUS AI","आपका व्यक्तिगत AI सहायक"],["LIFE MANAGER","दैनिक जीवन प्रबंधन"],
-["MONEY MASTER","धन और बजट प्रबंधन"],["WORK & EARN","काम और कमाई"],
-["LIFE GUARD","सुरक्षा और आपातकालीन सहायता"],["SMART DOCUMENT","डिजिटल दस्तावेज़"],
-["HUMAN NETWORK","लोग और संपर्क"],["MY WORLD","आपकी व्यक्तिगत दुनिया"]]
-}
+<script>
+"use strict";
+
+const API_URL = "https://nexus-one-api.help-7fe.workers.dev";
+const tokenKey = "nexus_one_token";
+
+const $ = id => document.getElementById(id);
+const getToken = () => sessionStorage.getItem(tokenKey);
+
+let language = "bn";
+let isRegister = false;
+let currentUser = null;
+let currentPage = "home";
+let activeModule = "";
+let moduleRecords = [];
+let editingRecordId = null;
+let aiHistoryLoaded = false;
+
+const MODULES = [
+  {id:"nexus-ai",name:"NEXUS AI",icon:"✧",desc:"আপনার ব্যক্তিগত AI সহকারী"},
+  {id:"life-manager",name:"LIFE MANAGER",icon:"◷",desc:"Task, routine, calendar ও goals"},
+  {id:"money-master",name:"MONEY MASTER",icon:"৳",desc:"Income, expense, budget ও savings"},
+  {id:"work-earn",name:"WORK & EARN",icon:"↗",desc:"কাজ, দক্ষতা ও আয়ের রেকর্ড"},
+  {id:"life-guard",name:"LIFE GUARD",icon:"⬡",desc:"জরুরি তথ্য ও নিরাপত্তা"},
+  {id:"smart-document",name:"SMART DOCUMENT",icon:"▤",desc:"ডিজিটাল ডকুমেন্ট সংরক্ষণ"},
+  {id:"human-network",name:"HUMAN NETWORK",icon:"♧",desc:"মানুষ ও যোগাযোগ ব্যবস্থাপনা"},
+  {id:"my-world",name:"MY WORLD",icon:"◎",desc:"Notes, diary ও personal records"}
+];
+
+const FIELDS = {
+  "life-manager":[
+    ["title","Task / Goal","text",true],
+    ["category","Category","select",false,["Task","Routine","Calendar","Goal","Reminder"]],
+    ["status","Status","select",false,["Pending","In Progress","Completed","Cancelled"]],
+    ["priority","Priority","select",false,["Low","Medium","High","Urgent"]],
+    ["due_date","Due Date","date"],
+    ["notes","Notes","textarea"]
+  ],
+  "money-master":[
+    ["title","Description","text",true],
+    ["type","Transaction Type","select",true,["Income","Expense","Savings","Budget"]],
+    ["amount","Amount","number",true],
+    ["category","Category","text"],
+    ["date","Date","date"],
+    ["payment_method","Payment Method","select",false,["Cash","Bank","Mobile Banking","Card","Other"]],
+    ["notes","Notes","textarea"]
+  ],
+  "work-earn":[
+    ["title","Work / Project Name","text",true],
+    ["company","Company / Client","text"],
+    ["status","Status","select",false,["Planning","Active","Completed","On Hold"]],
+    ["income","Income / Amount","number"],
+    ["date","Date","date"],
+    ["skills","Skills","text"],
+    ["notes","Notes","textarea"]
+  ],
+  "life-guard":[
+    ["title","Emergency Contact Name","text",true],
+    ["phone","Phone Number","tel",true],
+    ["relationship","Relationship","text"],
+    ["address","Address","textarea"],
+    ["emergency_note","Emergency Notes","textarea"]
+  ],
+  "human-network":[
+    ["title","Contact Name","text",true],
+    ["phone","Phone Number","tel"],
+    ["email","Email","email"],
+    ["relationship","Relationship","text"],
+    ["company","Company","text"],
+    ["notes","Notes","textarea"]
+  ],
+  "my-world":[
+    ["title","Title","text",true],
+    ["type","Record Type","select",false,["Note","Diary","Idea","Personal Record","Other"]],
+    ["date","Date","date"],
+    ["tags","Tags","text"],
+    ["content","Content","textarea",true]
+  ]
 };
 
-const MODULE_ICONS=["✧","◷","৳","↗","⬡","▤","♧","◎"];
-let language="bn";
-let isRegister=false;
-let currentUser=null;
-let currentPage="home";
-
-const $=id=>document.getElementById(id);
-const tokenKey="nexus_one_token";
-const getToken=()=>sessionStorage.getItem(tokenKey);
-
-function message(id,text,type=""){
-  const el=$(id);el.textContent=text;el.className="message "+type;
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
 }
 
-function setLanguage(lang){
-  language=TEXT[lang]?lang:"en";
-  document.documentElement.lang=language;
-  document.documentElement.dir=language==="ar"?"rtl":"ltr";
-  const t=TEXT[language];
+function toast(text){
+  const el=$("toast");
+  el.textContent=text;
+  el.classList.remove("hidden");
+  clearTimeout(toast.timer);
+  toast.timer=setTimeout(()=>el.classList.add("hidden"),3200);
+}
 
-  $("authLanguage").value=language;
-  $("dashboardLanguage").value=language;
-  $("settingsLanguage").value=language;
+function setMessage(id,text,type=""){
+  const el=$(id);
+  if(!el)return;
+  el.textContent=text;
+  el.className="message "+type;
+}
 
-  $("authTitle").textContent=isRegister?t.register:t.welcome;
-  $("authSubtitle").textContent=t.subtitle;
-  $("nameLabel").textContent=t.name;
-  $("emailLabel").textContent=t.email;
-  $("passwordLabel").textContent=t.password;
-  $("countryLabel").textContent=t.country;
-  $("languageLabel").textContent=t.language;
-  $("authSubmit").textContent=isRegister?t.register:t.login;
-  $("switchText").textContent=isRegister?t.haveAccount:t.noAccount;
-  $("switchMode").textContent=isRegister?t.login:t.register;
+async function api(path,options={}){
+  const headers={...(options.headers||{})};
+  if(getToken())headers.Authorization="Bearer "+getToken();
 
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const key=el.dataset.i18n;
-    if(t[key])el.textContent=t[key];
-  });
-
-  renderModules();
-  if(currentUser){
-    $("welcomeName").textContent=currentUser.name;
-    $("avatar").textContent=(currentUser.name||"N").charAt(0).toUpperCase();
+  const isForm=options.body instanceof FormData;
+  if(options.body!==undefined && !isForm && !(options.body instanceof ArrayBuffer)){
+    headers["Content-Type"]="application/json";
   }
+
+  const response=await fetch(API_URL+path,{...options,headers});
+  let data;
+  try{data=await response.json()}catch{throw new Error("Invalid server response")}
+  if(!response.ok || data.success===false){
+    throw new Error(data.error || "Request failed ("+response.status+")");
+  }
+  return data;
 }
+
+function setAuthMode(){
+  $("nameField").classList.toggle("hidden",!isRegister);
+  $("countryField").classList.toggle("hidden",!isRegister);
+  $("name").required=isRegister;
+  $("country").required=isRegister;
+  $("password").autocomplete=isRegister?"new-password":"current-password";
+  $("authTitle").textContent=isRegister?"অ্যাকাউন্ট তৈরি করুন":"স্বাগতম";
+  $("authSubtitle").textContent="আপনার ডিজিটাল জীবনের নতুন কেন্দ্র।";
+  $("authSubmit").textContent=isRegister?"রেজিস্ট্রেশন":"লগইন";
+  $("switchText").textContent=isRegister?"আগে থেকেই অ্যাকাউন্ট আছে?":"অ্যাকাউন্ট নেই?";
+  $("switchMode").textContent=isRegister?"লগইন":"রেজিস্ট্রেশন";
+}
+
+$("switchMode").addEventListener("click",()=>{
+  isRegister=!isRegister;
+  setAuthMode();
+  setMessage("authMessage","");
+});
+
+$("authLanguage").addEventListener("change",e=>{
+  language=e.target.value;
+  $("dashboardLanguage").value=language;
+});
+
+$("authForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const button=$("authSubmit");
+  button.disabled=true;
+  setMessage("authMessage","অপেক্ষা করুন...");
+  try{
+    const payload={
+      email:$("email").value.trim(),
+      password:$("password").value,
+      language:$("authLanguage").value
+    };
+    if(isRegister){
+      payload.name=$("name").value.trim();
+      payload.country=$("country").value.trim();
+    }
+    const result=await api(isRegister?"/auth/register":"/auth/login",{
+      method:"POST",body:JSON.stringify(payload)
+    });
+    sessionStorage.setItem(tokenKey,result.token);
+    currentUser=result.user;
+    await loadDashboard();
+  }catch(err){
+    setMessage("authMessage",err.message,"error");
+  }finally{button.disabled=false}
+});
 
 function renderModules(){
-  const data=TEXT[language].modulesData;
-  const html=data.map((item,i)=>`
-    <div class="module">
-      <div class="module-icon">${MODULE_ICONS[i]}</div>
-      <h4>${item[0]}</h4><p>${item[1]}</p>
+  const html=MODULES.map(m=>`
+    <div class="module" data-module="${m.id}" role="button" tabindex="0">
+      <div class="module-icon">${m.icon}</div>
+      <h4>${m.name}</h4><p>${m.desc}</p>
     </div>`).join("");
   $("homeModules").innerHTML=html;
   $("allModules").innerHTML=html;
@@ -408,88 +459,52 @@ function showAuth(){
 function showDashboard(){
   $("authView").classList.add("hidden");
   $("dashboardView").classList.remove("hidden");
-  $("welcomeName").textContent=currentUser.name;
-  $("avatar").textContent=(currentUser.name||"N").charAt(0).toUpperCase();
-  $("profileName").value=currentUser.name||"";
-  $("profileEmail").value=currentUser.email||"";
-  $("profileCountry").value=currentUser.country||"Bangladesh";
-  setLanguage(currentUser.language||language);
+  $("welcomeName").textContent=currentUser?.name||"User";
+  $("avatar").textContent=(currentUser?.name||"N").charAt(0).toUpperCase();
+  $("profileName").value=currentUser?.name||"";
+  $("profileEmail").value=currentUser?.email||"";
+  $("profileCountry").value=currentUser?.country||"Bangladesh";
+  renderModules();
   openPage("home");
+}
+
+async function loadDashboard(){
+  const me=await api("/auth/me");
+  currentUser=me.user;
+  const prefs=me.preferences||{};
+  $("settingsLanguage").value=prefs.language||currentUser.language||"bn";
+  $("dashboardLanguage").value=prefs.language||currentUser.language||"bn";
+  $("authLanguage").value=prefs.language||currentUser.language||"bn";
+  $("themeSelect").value=prefs.theme||"dark";
+  $("notifications").checked=prefs.notifications!==false;
+  applyTheme(prefs.theme||"dark");
+  showDashboard();
 }
 
 function openPage(page){
   currentPage=page;
-  ["home","modules","profile","settings"].forEach(p=>{
+  ["home","modules","module","profile","settings"].forEach(p=>{
     $(p+"Page").classList.toggle("hidden",p!==page);
   });
   document.querySelectorAll(".nav-item[data-page]").forEach(btn=>{
     btn.classList.toggle("active",btn.dataset.page===page);
   });
-  const titles={home:TEXT[language].dashboard,modules:TEXT[language].modules,profile:TEXT[language].profile,settings:TEXT[language].settings};
+  const titles={home:"Dashboard",modules:"Modules",module:"Module",profile:"My Profile",settings:"Settings"};
   $("pageTitle").textContent=titles[page]||"NEXUS ONE";
+  $("sidebar").style.display="";
+  $("sidebar").style.position="";
 }
 
-async function api(path,options={}){
-  const headers={"Content-Type":"application/json",...(options.headers||{})};
-  if(getToken())headers.Authorization="Bearer "+getToken();
-  const response=await fetch(API_URL+path,{...options,headers});
-  let data;
-  try{data=await response.json()}catch{throw new Error("Invalid server response")}
-  if(!response.ok||data.success===false)throw new Error(data.error||"Request failed");
-  return data;
-}
-
-$("switchMode").addEventListener("click",()=>{
-  isRegister=!isRegister;
-  $("nameField").classList.toggle("hidden",!isRegister);
-  $("countryField").classList.toggle("hidden",!isRegister);
-  $("password").autocomplete=isRegister?"new-password":"current-password";
-  $("name").required=isRegister;
-  $("country").required=isRegister;
-  message("authMessage","");
-  setLanguage(language);
+document.addEventListener("click",e=>{
+  const card=e.target.closest("[data-module]");
+  if(card)openModule(card.dataset.module);
 });
 
-$("authLanguage").addEventListener("change",e=>setLanguage(e.target.value));
-$("dashboardLanguage").addEventListener("change",async e=>{
-  setLanguage(e.target.value);
-  try{await api("/preferences",{method:"PUT",body:JSON.stringify({language})})}catch(err){console.error(err)}
-  openPage(currentPage);
-});
-
-$("authForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const button=$("authSubmit");
-  button.disabled=true;
-  message("authMessage",language==="bn"?"অপেক্ষা করো...":"Please wait...");
-  try{
-    const payload={
-      email:$("email").value.trim(),
-      password:$("password").value,
-      language
-    };
-    if(isRegister){
-      payload.name=$("name").value.trim();
-      payload.country=$("country").value.trim();
-    }
-    const result=await api(isRegister?"/auth/register":"/auth/login",{
-      method:"POST",body:JSON.stringify(payload)
-    });
-    sessionStorage.setItem(tokenKey,result.token);
-    currentUser=result.user;
-    showDashboard();
-  }catch(err){
-    message("authMessage",err.message,"error");
-  }finally{
-    button.disabled=false;
+document.addEventListener("keydown",e=>{
+  if((e.key==="Enter"||e.key===" ") && e.target.matches("[data-module]")){
+    e.preventDefault();
+    openModule(e.target.dataset.module);
   }
-});
-
-$("logoutButton").addEventListener("click",async()=>{
-  try{await api("/auth/logout",{method:"POST",body:"{}"})}catch(err){console.error(err)}
-  sessionStorage.removeItem(tokenKey);
-  currentUser=null;
-  showAuth();
 });
 
 document.querySelectorAll(".nav-item[data-page]").forEach(btn=>{
@@ -497,16 +512,24 @@ document.querySelectorAll(".nav-item[data-page]").forEach(btn=>{
 });
 
 $("mobileMenu").addEventListener("click",()=>{
-  const sidebar=document.querySelector(".sidebar");
-  const visible=sidebar.style.display==="flex";
-  sidebar.style.display=visible?"none":"flex";
-  if(!visible){
-    sidebar.style.position="fixed";
-    sidebar.style.zIndex="20";
-    sidebar.style.height="100vh";
-    sidebar.style.top="0";
-    sidebar.style.left="0";
-  }
+  const sidebar=$("sidebar");
+  sidebar.style.display=sidebar.style.display==="flex"?"none":"flex";
+});
+
+$("logoutButton").addEventListener("click",async()=>{
+  try{await api("/auth/logout",{method:"POST",body:"{}"})}catch(err){console.warn(err)}
+  sessionStorage.removeItem(tokenKey);
+  currentUser=null;
+  showAuth();
+});
+
+$("dashboardLanguage").addEventListener("change",async e=>{
+  const lang=e.target.value;
+  try{
+    await api("/preferences",{method:"PUT",body:JSON.stringify({language:lang})});
+    $("settingsLanguage").value=lang;
+    toast("Language preference saved");
+  }catch(err){toast(err.message)}
 });
 
 $("saveProfile").addEventListener("click",async()=>{
@@ -520,55 +543,410 @@ $("saveProfile").addEventListener("click",async()=>{
     });
     currentUser={...currentUser,...result.user};
     $("welcomeName").textContent=currentUser.name;
-    message("profileMessage",language==="bn"?"প্রোফাইল আপডেট হয়েছে":"Profile updated","success");
-  }catch(err){message("profileMessage",err.message,"error")}
+    $("avatar").textContent=currentUser.name.charAt(0).toUpperCase();
+    setMessage("profileMessage","প্রোফাইল আপডেট হয়েছে","success");
+  }catch(err){setMessage("profileMessage",err.message,"error")}
 });
 
 $("saveSettings").addEventListener("click",async()=>{
   try{
-    const preferences={
+    const prefs={
       language:$("settingsLanguage").value,
       theme:$("themeSelect").value,
       notifications:$("notifications").checked
     };
-    await api("/preferences",{method:"PUT",body:JSON.stringify(preferences)});
-    setLanguage(preferences.language);
-    applyTheme(preferences.theme);
-    openPage("settings");
-    message("settingsMessage",language==="bn"?"সেটিংস সংরক্ষিত হয়েছে":"Settings saved","success");
-  }catch(err){message("settingsMessage",err.message,"error")}
+    await api("/preferences",{method:"PUT",body:JSON.stringify(prefs)});
+    $("dashboardLanguage").value=prefs.language;
+    applyTheme(prefs.theme);
+    setMessage("settingsMessage","সেটিংস সংরক্ষিত হয়েছে","success");
+  }catch(err){setMessage("settingsMessage",err.message,"error")}
 });
 
 function applyTheme(theme){
-  if(theme==="light"){
-    document.documentElement.style.setProperty("--bg","#f1f5fb");
-    document.documentElement.style.setProperty("--panel","#ffffff");
-    document.documentElement.style.setProperty("--panel2","#e7eef8");
-    document.documentElement.style.setProperty("--text","#142039");
-    document.documentElement.style.setProperty("--muted","#60718a");
-    document.documentElement.style.setProperty("--line","#d7e0ed");
-  }else{
-    document.documentElement.style.setProperty("--bg","#080d19");
-    document.documentElement.style.setProperty("--panel","#101a2b");
-    document.documentElement.style.setProperty("--panel2","#142239");
-    document.documentElement.style.setProperty("--text","#f4f7ff");
-    document.documentElement.style.setProperty("--muted","#91a0b8");
-    document.documentElement.style.setProperty("--line","#263650");
+  const light=theme==="light" ||
+    (theme==="system" && window.matchMedia("(prefers-color-scheme: light)").matches);
+  document.body.classList.toggle("light",light);
+}
+
+function openModule(id){
+  activeModule=id;
+  editingRecordId=null;
+  const module=MODULES.find(m=>m.id===id);
+  if(!module)return;
+  $("moduleTitle").textContent=module.name;
+  $("moduleDescription").textContent=module.desc;
+  openPage("module");
+  if(id==="nexus-ai")renderAI();
+  else if(id==="smart-document")renderDocuments();
+  else renderRecordModule(id);
+}
+
+$("backModules").addEventListener("click",()=>openPage("modules"));
+
+function renderRecordModule(id){
+  const recordsUrl="/api/"+id;
+  $("moduleContent").innerHTML=`
+    <div class="toolbar">
+      <input class="search-input" id="recordSearch" placeholder="Search records...">
+      <button class="primary" id="addRecord">+ Add New</button>
+    </div>
+    <div id="recordFormHost"></div>
+    <div id="recordList" class="records"><div class="empty">Loading...</div></div>`;
+  $("addRecord").addEventListener("click",()=>showRecordForm(id));
+  $("recordSearch").addEventListener("input",e=>{
+    const term=e.target.value.toLowerCase();
+    const filtered=moduleRecords.filter(r=>
+      JSON.stringify(r).toLowerCase().includes(term)
+    );
+    renderRecordList(id,filtered);
+  });
+  loadRecords(id);
+}
+
+async function loadRecords(id){
+  $("recordList").innerHTML='<div class="empty">Loading records...</div>';
+  try{
+    const result=await api("/api/"+id);
+    moduleRecords=result.records||[];
+    renderRecordList(id,moduleRecords);
+  }catch(err){
+    $("recordList").innerHTML=`<div class="empty">${escapeHTML(err.message)}</div>`;
   }
 }
 
-async function startApp(){
-  setLanguage(language);
-  if(!getToken()){showAuth();return}
+function showRecordForm(id,record=null){
+  editingRecordId=record?.id||null;
+  const fields=FIELDS[id]||[];
+  const data=record?.data||{};
+  const inputs=fields.map(field=>{
+    const [key,label,type,required,options]=field;
+    const value=data[key]??"";
+    let control="";
+    if(type==="textarea"){
+      control=`<textarea name="${key}" ${required?"required":""}>${escapeHTML(value)}</textarea>`;
+    }else if(type==="select"){
+      control=`<select name="${key}" ${required?"required":""}>
+        <option value="">Select...</option>
+        ${(options||[]).map(o=>`<option value="${escapeHTML(o)}" ${value===o?"selected":""}>${escapeHTML(o)}</option>`).join("")}
+      </select>`;
+    }else{
+      control=`<input name="${key}" type="${type}" value="${escapeHTML(value)}" ${required?"required":""} ${type==="number"?'min="0" step="any"':""}>`;
+    }
+    return `<div class="field ${type==="textarea"?"wide":""}">
+      <label>${escapeHTML(label)}${required?" *":""}</label>${control}
+    </div>`;
+  }).join("");
+
+  $("recordFormHost").innerHTML=`
+    <form class="form-panel" id="recordForm">
+      <h3 style="margin:0 0 10px">${record?"Edit Record":"Add New Record"}</h3>
+      <div class="form-grid">${inputs}</div>
+      <div class="form-actions">
+        <button class="primary" type="submit">${record?"Update Record":"Save Record"}</button>
+        <button class="secondary" type="button" id="cancelRecord">Cancel</button>
+      </div>
+      <div id="recordFormMessage" class="message"></div>
+    </form>`;
+
+  $("cancelRecord").addEventListener("click",()=>{
+    editingRecordId=null;
+    $("recordFormHost").innerHTML="";
+  });
+
+  $("recordForm").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const form=e.currentTarget;
+    const data={};
+    for(const field of fields){
+      const key=field[0];
+      const input=form.elements.namedItem(key);
+      let value=input.value.trim();
+      if(field[2]==="number" && value!=="")value=Number(value);
+      data[key]=value;
+    }
+    const title=data.title||"Untitled";
+    const button=form.querySelector('button[type="submit"]');
+    button.disabled=true;
+    try{
+      const body=JSON.stringify({title,data});
+      if(editingRecordId){
+        await api(recordsUrl+"/"+editingRecordId,{method:"PUT",body});
+      }else{
+        await api(recordsUrl,{method:"POST",body});
+      }
+      toast(editingRecordId?"Record updated":"Record saved");
+      editingRecordId=null;
+      $("recordFormHost").innerHTML="";
+      await loadRecords(id);
+    }catch(err){
+      setMessage("recordFormMessage",err.message,"error");
+    }finally{button.disabled=false}
+  });
+}
+
+function renderRecordList(id,records){
+  const host=$("recordList");
+  if(!records.length){
+    host.innerHTML='<div class="empty">এখনো কোনো রেকর্ড নেই। Add New দিয়ে শুরু করো।</div>';
+    return;
+  }
+  host.innerHTML=records.map(record=>{
+    const data=record.data||{};
+    const pairs=Object.entries(data).filter(([k,v])=>
+      k!=="title" && v!=="" && v!==null && v!==undefined
+    );
+    const detail=pairs.slice(0,6).map(([k,v])=>
+      `<p><strong>${escapeHTML(k.replaceAll("_"," "))}:</strong> ${escapeHTML(v)}</p>`
+    ).join("");
+    return `
+      <article class="record-card">
+        <span class="tag">${escapeHTML(id.replaceAll("-"," ").toUpperCase())}</span>
+        <h4>${escapeHTML(record.title||"Untitled")}</h4>
+        ${detail}
+        <p style="font-size:10px">Updated: ${escapeHTML(record.updated_at||record.created_at||"")}</p>
+        <div class="record-actions">
+          <button class="small-btn" data-edit="${escapeHTML(record.id)}">Edit</button>
+          <button class="danger" data-delete="${escapeHTML(record.id)}">Delete</button>
+        </div>
+      </article>`;
+  }).join("");
+
+  host.querySelectorAll("[data-edit]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const record=moduleRecords.find(r=>r.id===btn.dataset.edit);
+      if(record)showRecordForm(id,record);
+      window.scrollTo({top:0,behavior:"smooth"});
+    });
+  });
+
+  host.querySelectorAll("[data-delete]").forEach(btn=>{
+    btn.addEventListener("click",async()=>{
+      if(!confirm("এই রেকর্ডটি মুছে ফেলতে চাও?"))return;
+      try{
+        await api("/api/"+id+"/"+btn.dataset.delete,{method:"DELETE"});
+        toast("Record deleted");
+        await loadRecords(id);
+      }catch(err){toast(err.message)}
+    });
+  });
+}
+
+// ===============================
+// NEXUS AI
+// ===============================
+
+function renderAI(){
+  $("moduleContent").innerHTML=`
+    <div class="panel">
+      <div class="section-head" style="margin-top:0">
+        <div><h3>NEXUS AI Assistant</h3><p class="page-description">তোমার ব্যক্তিগত AI সহকারীকে প্রশ্ন করো।</p></div>
+        <button class="small-btn" id="clearChat">Reload History</button>
+      </div>
+      <div class="chat-box" id="chatBox"><div class="empty">Loading conversation...</div></div>
+      <form class="chat-form" id="chatForm">
+        <input id="chatInput" maxlength="5000" placeholder="এখানে তোমার প্রশ্ন লিখো..." required>
+        <button class="primary" id="chatSend">Send</button>
+      </form>
+      <div id="chatStatus" class="message"></div>
+    </div>`;
+  loadAIHistory();
+  $("clearChat").addEventListener("click",loadAIHistory);
+  $("chatForm").addEventListener("submit",sendAIMessage);
+}
+
+function addChatMessage(role,message){
+  const box=$("chatBox");
+  const empty=box.querySelector(".empty");
+  if(empty)empty.remove();
+  const div=document.createElement("div");
+  div.className="chat-message "+(role==="user"?"user":"assistant");
+  div.textContent=message;
+  box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
+}
+
+async function loadAIHistory(){
+  $("chatBox").innerHTML='<div class="empty">Loading conversation...</div>';
   try{
-    const result=await api("/auth/me");
-    currentUser=result.user;
-    const prefs=result.preferences||{};
-    language=prefs.language||currentUser.language||"bn";
-    $("themeSelect").value=prefs.theme||"dark";
-    $("notifications").checked=prefs.notifications!==false;
-    applyTheme(prefs.theme||"dark");
-    showDashboard();
+    const result=await api("/api/ai/history");
+    $("chatBox").innerHTML="";
+    (result.messages||[]).forEach(item=>addChatMessage(item.role,item.message));
+    if(!(result.messages||[]).length){
+      $("chatBox").innerHTML='<div class="empty">NEXUS AI-তে স্বাগতম! কীভাবে সাহায্য করতে পারি?</div>';
+    }
+    aiHistoryLoaded=true;
+  }catch(err){
+    $("chatBox").innerHTML=`<div class="empty">${escapeHTML(err.message)}</div>`;
+  }
+}
+
+async function sendAIMessage(e){
+  e.preventDefault();
+  const input=$("chatInput");
+  const message=input.value.trim();
+  if(!message)return;
+  const button=$("chatSend");
+  button.disabled=true;
+  input.disabled=true;
+  addChatMessage("user",message);
+  input.value="";
+  setMessage("chatStatus","AI উত্তর তৈরি করছে...");
+  try{
+    const result=await api("/api/ai/chat",{
+      method:"POST",body:JSON.stringify({message})
+    });
+    addChatMessage("assistant",result.message||"কোনো উত্তর পাওয়া যায়নি।");
+    setMessage("chatStatus","");
+  }catch(err){
+    addChatMessage("assistant","দুঃখিত, সমস্যা হয়েছে: "+err.message);
+    setMessage("chatStatus",err.message,"error");
+  }finally{
+    button.disabled=false;
+    input.disabled=false;
+    input.focus();
+  }
+}
+
+// ===============================
+// SMART DOCUMENT
+// ===============================
+
+function renderDocuments(){
+  $("moduleContent").innerHTML=`
+    <div class="panel">
+      <h3 style="margin-top:0">Upload Document</h3>
+      <p class="page-description">সর্বোচ্চ ফাইল সাইজ ১০ MB।</p>
+      <form id="documentForm">
+        <div class="field"><label>Select File</label>
+          <input id="documentFile" type="file" required>
+        </div>
+        <button class="primary" id="uploadDocument" style="margin-top:15px">Upload File</button>
+        <div id="documentMessage" class="message"></div>
+      </form>
+    </div>
+    <div class="section-head"><h3>My Documents</h3><button class="small-btn" id="refreshDocuments">Refresh</button></div>
+    <div class="panel" id="documentList">Loading documents...</div>`;
+
+  $("documentForm").addEventListener("submit",uploadDocument);
+  $("refreshDocuments").addEventListener("click",loadDocuments);
+  loadDocuments();
+}
+
+async function uploadDocument(e){
+  e.preventDefault();
+  const file=$("documentFile").files[0];
+  if(!file)return;
+  if(file.size>10*1024*1024){
+    setMessage("documentMessage","ফাইল ১০ MB-এর চেয়ে বড়।","error");
+    return;
+  }
+  const button=$("uploadDocument");
+  button.disabled=true;
+  setMessage("documentMessage","Uploading...");
+  try{
+    const response=await fetch(API_URL+"/api/documents/upload",{
+      method:"POST",
+      headers:{
+        Authorization:"Bearer "+getToken(),
+        "Content-Type":file.type||"application/octet-stream",
+        "X-File-Name":encodeURIComponent(file.name)
+      },
+      body:file
+    });
+    const result=await response.json();
+    if(!response.ok||result.success===false)throw new Error(result.error||"Upload failed");
+    setMessage("documentMessage","ফাইল সফলভাবে আপলোড হয়েছে।","success");
+    $("documentForm").reset();
+    await loadDocuments();
+  }catch(err){
+    setMessage("documentMessage",err.message,"error");
+  }finally{button.disabled=false}
+}
+
+async function loadDocuments(){
+  const host=$("documentList");
+  host.textContent="Loading documents...";
+  try{
+    const result=await api("/api/documents");
+    const docs=result.documents||[];
+    if(!docs.length){
+      host.innerHTML='<div class="empty">এখনো কোনো Document Upload করা হয়নি।</div>';
+      return;
+    }
+    host.innerHTML=docs.map(doc=>`
+      <div class="file-row">
+        <div style="min-width:0">
+          <strong>${escapeHTML(doc.file_name)}</strong>
+          <small>${formatBytes(doc.file_size)} · ${escapeHTML(doc.created_at||"")}</small>
+        </div>
+        <div style="display:flex;gap:7px;flex-shrink:0">
+          <button class="small-btn" data-download="${escapeHTML(doc.id)}">Download</button>
+          <button class="danger" data-doc-delete="${escapeHTML(doc.id)}">Delete</button>
+        </div>
+      </div>`).join("");
+
+    host.querySelectorAll("[data-download]").forEach(btn=>{
+      btn.addEventListener("click",()=>downloadDocument(btn.dataset.download));
+    });
+    host.querySelectorAll("[data-doc-delete]").forEach(btn=>{
+      btn.addEventListener("click",()=>deleteDocument(btn.dataset.docDelete));
+    });
+  }catch(err){
+    host.innerHTML=`<div class="empty">${escapeHTML(err.message)}</div>`;
+  }
+}
+
+function formatBytes(bytes){
+  const n=Number(bytes)||0;
+  if(n<1024)return n+" B";
+  if(n<1024*1024)return (n/1024).toFixed(1)+" KB";
+  return (n/1024/1024).toFixed(2)+" MB";
+}
+
+async function downloadDocument(id){
+  try{
+    const response=await fetch(API_URL+"/api/documents/"+id+"/download",{
+      headers:{Authorization:"Bearer "+getToken()}
+    });
+    if(!response.ok){
+      let err={};
+      try{err=await response.json()}catch{}
+      throw new Error(err.error||"Download failed");
+    }
+    const blob=await response.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="NEXUS-ONE-document";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }catch(err){toast(err.message)}
+}
+
+async function deleteDocument(id){
+  if(!confirm("এই ডকুমেন্টটি মুছে ফেলতে চাও?"))return;
+  try{
+    await api("/api/documents/"+id,{method:"DELETE"});
+    toast("Document deleted");
+    await loadDocuments();
+  }catch(err){toast(err.message)}
+}
+
+// ===============================
+// STARTUP
+// ===============================
+
+async function startApp(){
+  renderModules();
+  setAuthMode();
+  if(!getToken()){
+    showAuth();
+    return;
+  }
+  try{
+    await loadDashboard();
   }catch(err){
     sessionStorage.removeItem(tokenKey);
     showAuth();
@@ -576,7 +954,9 @@ async function startApp(){
 }
 
 if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./sw.js").catch(console.error);
+  });
 }
 
 startApp();
